@@ -1,30 +1,44 @@
 import nodemailer from "nodemailer"
+import { z } from "zod"
 
 export const runtime = "nodejs"
-
-type ContactPayload = {
-  name?: string
-  company?: string
-  email?: string
-  phone?: string
-  service?: string
-  message?: string
-  website?: string
-  startedAt?: number
-  turnstileToken?: string
-}
 
 type TurnstileVerifyResponse = {
   success: boolean
   "error-codes"?: string[]
 }
 
+const contactSchema = z.object({
+  name: z.preprocess((value) => (typeof value === "string" ? value.trim() : ""), z.string().min(1, { message: "Name is required." })),
+  email: z.preprocess((value) => (typeof value === "string" ? value.trim() : ""), z.string().email({ message: "Email is invalid." })),
+  message: z.preprocess(
+    (value) => (typeof value === "string" ? value.trim() : ""),
+    z.string().min(1, { message: "Message is required." }).max(5000, { message: "Message is too long." }),
+  ),
+  company: z.preprocess((value) => (typeof value === "string" ? value.trim() : ""), z.string().max(100)),
+  phone: z.preprocess((value) => (typeof value === "string" ? value.trim() : ""), z.string().max(50)),
+  service: z.preprocess((value) => (typeof value === "string" ? value.trim() : ""), z.string().max(100)),
+  meetingDate: z.preprocess((value) => (typeof value === "string" ? value.trim() : ""), z.string().max(50)),
+  meetingTime: z.preprocess((value) => (typeof value === "string" ? value.trim() : ""), z.string().max(50)),
+  website: z.preprocess((value) => (typeof value === "string" ? value.trim() : ""), z.string().max(500)),
+  startedAt: z.preprocess((value) => {
+    if (typeof value === "string" && value !== "") return Number(value)
+    return typeof value === "number" ? value : undefined
+  }, z.number().int().nonnegative().optional()),
+  turnstileToken: z.preprocess((value) => (typeof value === "string" ? value.trim() : ""), z.string().max(1000).optional()),
+})
+
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
 const RATE_LIMIT_MAX_REQUESTS = 5
 const recentRequests = new Map<string, number[]>()
 
-function sanitize(value: unknown) {
-  return typeof value === "string" ? value.trim() : ""
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
 }
 
 function getClientIp(request: Request) {
@@ -49,22 +63,32 @@ function isRateLimited(ip: string) {
 }
 
 export async function POST(request: Request) {
-  const body = (await request.json().catch(() => null)) as ContactPayload | null
+  const rawBody = (await request.json().catch(() => null))
   const ip = getClientIp(request)
 
   if (isRateLimited(ip)) {
     return Response.json({ error: "Too many submissions. Please try again in a few minutes." }, { status: 429 })
   }
 
-  const name = sanitize(body?.name)
-  const email = sanitize(body?.email)
-  const message = sanitize(body?.message)
-  const company = sanitize(body?.company)
-  const phone = sanitize(body?.phone)
-  const service = sanitize(body?.service)
-  const website = sanitize(body?.website)
-  const startedAt = typeof body?.startedAt === "number" ? body.startedAt : 0
-  const turnstileToken = sanitize(body?.turnstileToken)
+  const parseResult = contactSchema.safeParse(rawBody)
+  if (!parseResult.success) {
+    const firstError = parseResult.error.errors[0]
+    return Response.json({ error: firstError?.message || "Invalid submission." }, { status: 400 })
+  }
+
+  const {
+    name,
+    email,
+    message,
+    company,
+    phone,
+    service,
+    meetingDate,
+    meetingTime,
+    website,
+    startedAt = 0,
+    turnstileToken,
+  } = parseResult.data
   const turnstileSecret = process.env.TURNSTILE_SECRET_KEY
   const isProduction = process.env.NODE_ENV === "production"
 
@@ -111,14 +135,6 @@ export async function POST(request: Request) {
     }
   }
 
-  if (!name || !email || !message) {
-    return Response.json({ error: "Name, email, and message are required." }, { status: 400 })
-  }
-
-  if (message.length > 5000) {
-    return Response.json({ error: "Message is too long." }, { status: 400 })
-  }
-
   const smtpHost = process.env.SMTP_HOST
   const smtpPort = Number(process.env.SMTP_PORT || 587)
   const smtpUser = process.env.SMTP_USER
@@ -159,13 +175,25 @@ export async function POST(request: Request) {
     },
   })
 
-  const subject = `MetaSoft website inquiry from ${name}`
+  const safeName = escapeHtml(name)
+  const safeEmail = escapeHtml(email)
+  const safePhone = escapeHtml(phone || "-")
+  const safeCompany = escapeHtml(company || "-")
+  const safeService = escapeHtml(service || "-")
+  const safeMeetingDate = escapeHtml(meetingDate || "-")
+  const safeMeetingTime = escapeHtml(meetingTime || "-")
+  const safeMessage = escapeHtml(message).replace(/\r\n?/g, "\n").replace(/\n/g, "<br />")
+
+  const safeSubjectName = name.replace(/[\r\n]/g, " ")
+  const subject = `MetaSoft website inquiry from ${safeSubjectName}`
   const text = [
     `Name: ${name}`,
     `Email: ${email}`,
     `Phone: ${phone || "-"}`,
     `Company: ${company || "-"}`,
     `Service Needed: ${service || "-"}`,
+    `Preferred meeting date: ${meetingDate || "-"}`,
+    `Preferred meeting time: ${meetingTime || "-"}`,
     "",
     "Message:",
     message,
@@ -174,13 +202,15 @@ export async function POST(request: Request) {
   const html = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #0f172a;">
       <h2>New MetaSoft website inquiry</h2>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone || "-"}</p>
-      <p><strong>Company:</strong> ${company || "-"}</p>
-      <p><strong>Service Needed:</strong> ${service || "-"}</p>
+      <p><strong>Name:</strong> ${safeName}</p>
+      <p><strong>Email:</strong> ${safeEmail}</p>
+      <p><strong>Phone:</strong> ${safePhone}</p>
+      <p><strong>Company:</strong> ${safeCompany}</p>
+      <p><strong>Service Needed:</strong> ${safeService}</p>
+      <p><strong>Preferred meeting date:</strong> ${safeMeetingDate}</p>
+      <p><strong>Preferred meeting time:</strong> ${safeMeetingTime}</p>
       <p><strong>Message:</strong></p>
-      <p style="white-space: pre-wrap;">${message}</p>
+      <p style="white-space: pre-wrap;">${safeMessage}</p>
     </div>
   `
 

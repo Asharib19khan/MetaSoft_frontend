@@ -26,14 +26,14 @@ export function HeroVisual() {
       <svg viewBox="0 0 390 400" className="h-auto w-full" role="img" aria-label="Abstract server and database network illustration">
         <defs>
           <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#1E9B97" />
-            <stop offset="100%" stopColor="#EBB424" />
+            <stop offset="0%" stopColor="#00F0FF" />
+            <stop offset="100%" stopColor="#A855F7" />
           </linearGradient>
         </defs>
 
         {/* background grid */}
         {Array.from({ length: 9 }).map((_, i) => (
-          <line key={`v${i}`} x1={i * 48} y1="0" x2={i * 48} y2="400" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+          <line key={`v${i}`} x1={i * 48} y1="0" x2={i * 48} y2="400" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
         ))}
         {Array.from({ length: 9 }).map((_, i) => (
           <line key={`h${i}`} x1="0" y1={i * 48} x2="390" y2={i * 48} stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
@@ -77,8 +77,8 @@ export function HeroVisual() {
               cx={n.x}
               cy={n.y}
               r="22"
-              fill="rgba(30,155,151,0.08)"
-              stroke="rgba(30,155,151,0.4)"
+              fill="rgba(0,240,255,0.12)"
+              stroke="rgba(0,240,255,0.4)"
               strokeWidth="1"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -88,7 +88,7 @@ export function HeroVisual() {
               cx={n.x}
               cy={n.y}
               r="7"
-              fill="#1E9B97"
+              fill="#00F0FF"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.7 + i * 0.12 }}

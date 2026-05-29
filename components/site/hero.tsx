@@ -8,6 +8,12 @@ import { useCountUp } from "@/hooks/use-count-up"
 
 const HEADLINE = ["Enterprise", "IT.", "Simplified."]
 
+const FEATURES = [
+  "24/7 infrastructure vigilance",
+  "Oracle EBS lifecycle experts",
+  "Resilience-first automation",
+]
+
 const STATS = [
   { value: 20, suffix: "+", label: "Years of Expertise" },
   { value: 10, suffix: "+", label: "Clients Served" },
@@ -17,12 +23,12 @@ const STATS = [
 function Stat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
   const { ref, value: current } = useCountUp(value)
   return (
-    <div className="flex-1">
+    <div className="flex flex-col gap-2 rounded-[28px] border border-white/10 bg-surface/80 p-6 shadow-[0_22px_80px_-48px_rgba(0,240,255,0.4)] backdrop-blur-xl">
       <p className="font-mono text-4xl font-bold text-ink sm:text-5xl">
         <span ref={ref}>{current}</span>
         {suffix}
       </p>
-      <p className="mt-1 text-xs text-ink-secondary sm:text-sm">{label}</p>
+      <p className="text-sm uppercase tracking-[0.18em] text-ink-secondary">{label}</p>
     </div>
   )
 }
@@ -31,16 +37,17 @@ export function Hero() {
   return (
     <section id="hero" className="relative flex min-h-svh items-center overflow-hidden pt-24 pb-16">
       {/* background layers */}
-      <div className="pointer-events-none absolute inset-0 bg-noise opacity-[0.03]" aria-hidden="true" />
-      <div className="pointer-events-none absolute inset-0 bg-dot-grid" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-noise opacity-[0.04]" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-60" aria-hidden="true" />
       <div
         className="pointer-events-none absolute inset-0"
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(circle 700px at 18% 50%, rgba(30,155,151,0.18), transparent), radial-gradient(circle 520px at 78% 28%, rgba(235,180,36,0.12), transparent)",
+            "radial-gradient(circle 680px at 18% 40%, rgba(0,240,255,0.18), transparent), radial-gradient(circle 420px at 88% 18%, rgba(124,58,237,0.18), transparent), radial-gradient(circle 420px at 70% 85%, rgba(255,190,11,0.12), transparent)",
         }}
       />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-base/90 to-transparent" aria-hidden="true" />
 
       <div className="relative mx-auto grid w-full max-w-[1280px] grid-cols-1 items-center gap-12 px-5 lg:grid-cols-2 lg:px-8">
         {/* left */}
@@ -74,58 +81,74 @@ export function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-6 max-w-[520px] text-lg leading-[1.75] text-ink-secondary"
+            transition={{ duration: 0.55, delay: 0.62 }}
+            className="mt-6 max-w-[720px] text-lg leading-[1.8] text-ink-secondary"
           >
-            MetaSoft liberates businesses from IT complexity — delivering expert Database Administration, Oracle EBS,
-            System Administration, and IT Consulting to organizations across Pakistan.
+            MetaSoft liberates businesses from IT complexity with proactive database operations, Oracle EBS support,
+            security-hardened system administration, and growth-ready advisory services.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="mt-10 flex items-stretch gap-6 border-y border-line py-6"
+            transition={{ duration: 0.55, delay: 0.8 }}
+            className="mt-10 flex flex-wrap gap-3"
           >
-            {STATS.map((s, i) => (
-              <div key={s.label} className="flex flex-1 items-center gap-6">
-                <Stat {...s} />
-                {i < STATS.length - 1 && <span className="h-12 w-px bg-line" />}
-              </div>
+            {FEATURES.map((feature) => (
+              <span
+                key={feature}
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-ink-secondary shadow-sm transition hover:border-brand/30 hover:text-white"
+              >
+                {feature}
+              </span>
             ))}
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1 }}
+            transition={{ duration: 0.55, delay: 1 }}
             className="mt-8 flex flex-col gap-3 sm:flex-row"
           >
             <a
               href="#services"
               onClick={() => track("cta_clicked", { placement: "hero", cta: "explore_services" })}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_28px_rgba(30,155,151,0.45)]"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-black transition duration-200 hover:bg-brand-light hover:shadow-[0_0_32px_rgba(0,240,255,0.25)]"
             >
               Explore Services <ArrowRight className="h-4 w-4" />
             </a>
             <a
               href="#contact"
               onClick={() => track("cta_clicked", { placement: "hero", cta: "book_consultation" })}
-              className="inline-flex items-center justify-center rounded-full border border-line-hover px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-elevated"
+              className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white transition duration-200 hover:bg-white/10"
             >
               Book a 15-minute Consultation
             </a>
+          </motion.div>
+
+          <motion.div
+            className="mt-12 grid gap-4 sm:grid-cols-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 1.2 }}
+          >
+            {STATS.map((stat) => (
+              <Stat key={stat.label} {...stat} />
+            ))}
           </motion.div>
         </div>
 
         {/* right */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          initial={{ opacity: 0, y: 24, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="order-first lg:order-none"
         >
-          <HeroVisual />
+          <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-surface/80 p-5 shadow-[0_50px_120px_-80px_rgba(0,240,255,0.45)] backdrop-blur-xl">
+            <HeroVisual />
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-base/95 via-base/30 to-transparent" aria-hidden="true" />
+          </div>
         </motion.div>
       </div>
 

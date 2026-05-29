@@ -3,11 +3,15 @@
 import type React from "react"
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
-import { ArrowRight, CheckCircle2, Clock, Globe, Mail, MapPin, Phone } from "lucide-react"
+import { ArrowRight, CalendarDays, CheckCircle2, ChevronDown, Clock, Globe, Mail, MapPin, Phone } from "lucide-react"
 import { track } from "@vercel/analytics"
 import Script from "next/script"
 import { fadeUp, stagger, viewport } from "./motion"
 import { SelectField } from "./select-field"
+import * as PopoverPrimitive from "@radix-ui/react-popover"
+import { Button } from "../ui/button"
+import { Calendar } from "../ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 
 declare global {
   interface Window {
@@ -32,6 +36,20 @@ const SERVICES = [
   "Other / Multiple Services",
 ]
 
+const MEETING_TIMES = [
+  "09:00 AM",
+  "10:00 AM",
+  "11:00 AM",
+  "12:00 PM",
+  "01:00 PM",
+  "02:00 PM",
+  "03:00 PM",
+  "04:00 PM",
+]
+
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+
 const inputClass =
   "w-full rounded-lg border border-line bg-white/[0.04] px-4 py-3 text-sm text-ink placeholder:text-ink-muted outline-none transition-all focus:border-brand focus:shadow-[0_0_0_3px_rgba(30,155,151,0.15)]"
 const labelClass = "mb-1.5 block text-xs font-medium text-ink-secondary"
@@ -41,6 +59,8 @@ export function Contact() {
   const [sending, setSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [service, setService] = useState("")
+  const [meetingDate, setMeetingDate] = useState<Date | undefined>()
+  const [meetingTime, setMeetingTime] = useState("")
   const [turnstileToken, setTurnstileToken] = useState("")
   const [startedAt] = useState(() => Date.now())
   const hasTrackedStart = useRef(false)
@@ -77,6 +97,8 @@ export function Contact() {
       email: String(formData.get("email") || "").trim(),
       phone: String(formData.get("phone") || "").trim(),
       service: String(formData.get("service") || "").trim(),
+      meetingDate: String(formData.get("meetingDate") || "").trim(),
+      meetingTime: String(formData.get("meetingTime") || "").trim(),
       message: String(formData.get("message") || "").trim(),
       website: String(formData.get("website") || "").trim(),
       startedAt: Number(formData.get("startedAt") || startedAt),
@@ -103,6 +125,9 @@ export function Contact() {
       setSubmitted(true)
       track("contact_form_submitted", { status: "success", service: payload.service || "not-selected" })
       setService("")
+      setMeetingDate(undefined)
+      setMeetingTime("")
+      setTurnstileToken("")
       e.currentTarget.reset()
     } catch (submissionError) {
       track("contact_form_submitted", { status: "error" })
@@ -193,6 +218,7 @@ export function Contact() {
               />
               <input type="hidden" name="startedAt" value={startedAt} />
               <input type="hidden" name="turnstileToken" value={turnstileToken} />
+              <input type="hidden" name="meetingDate" value={meetingDate?.toISOString().slice(0, 10) || ""} />
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="name" className={labelClass}>
@@ -252,6 +278,73 @@ export function Contact() {
                   }}
                 />
               </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="meetingDate" className={labelClass}>
+                    Preferred meeting date
+                  </label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        id="meetingDate"
+                        className={`${inputClass} flex items-center justify-between`}
+                        onFocus={trackFormStart}
+                        aria-label="Choose a preferred meeting date"
+                      >
+                        <span className={`truncate ${meetingDate ? "text-ink" : "text-ink-muted"}`}>
+                          {meetingDate
+                            ? meetingDate.toLocaleDateString(undefined, {
+                                weekday: "short",
+                                month: "short",
+                                day: "numeric",
+                              })
+                            : "Choose a date"}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <CalendarDays className="h-4 w-4 text-ink-secondary" />
+                          <ChevronDown className="h-4 w-4 text-ink-secondary" />
+                        </div>
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[23rem] p-0">
+                      <Calendar
+                        mode="single"
+                        selected={meetingDate}
+                        onSelect={(date) => {
+                          trackFormStart()
+                          setMeetingDate(date ?? undefined)
+                        }}
+                        disabled={{ before: today }}
+                        fromDate={today}
+                      />
+                      <div className="border-t border-line p-3 text-right">
+                        <PopoverPrimitive.Close asChild>
+                          <Button variant="secondary" size="sm" type="button">
+                            Done
+                          </Button>
+                        </PopoverPrimitive.Close>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <div>
+                  <label htmlFor="meetingTime" className={labelClass}>
+                    Preferred meeting time
+                  </label>
+                  <SelectField
+                    id="meetingTime"
+                    name="meetingTime"
+                    options={MEETING_TIMES}
+                    placeholder="Select a time"
+                    value={meetingTime}
+                    onChange={(value) => {
+                      trackFormStart()
+                      setMeetingTime(value)
+                    }}
+                  />
+                </div>
+              </div>
               <div>
                 <label htmlFor="message" className={labelClass}>
                   Message
@@ -282,7 +375,7 @@ export function Contact() {
                 {sending ? "Sending..." : <>Send Message <ArrowRight className="h-4 w-4" /></>}
               </button>
               {error && (
-                <p className="text-sm text-red-500">
+                <p role="alert" aria-live="polite" className="text-sm text-red-500">
                   {error} If this keeps happening, email us directly at {" "}
                   <a href="mailto:ashepic057@gmail.com" className="underline underline-offset-4">
                     ashepic057@gmail.com

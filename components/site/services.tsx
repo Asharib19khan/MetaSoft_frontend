@@ -51,7 +51,7 @@ const SERVICES: Service[] = [
 
 export function Services() {
   return (
-    <section id="services" className="relative bg-surface py-24 lg:py-32">
+    <section id="services" className="relative bg-surface/90 py-24 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
         <SectionHeader
           label="What We Do"
@@ -72,23 +72,23 @@ export function Services() {
               <motion.article
                 key={service.title}
                 variants={fadeUp}
-                whileHover={{ scale: 1.02, y: -4 }}
-                transition={{ type: "spring", stiffness: 300, damping: 24 }}
-                className="group glass rounded-2xl p-7 transition-shadow duration-300 hover:border-line-hover hover:shadow-[0_0_40px_rgba(30,155,151,0.15)]"
+                whileHover={{ y: -10, scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 260, damping: 24 }}
+                className="group rounded-[32px] border border-white/10 bg-surface/80 p-8 shadow-[0_30px_80px_-40px_rgba(0,240,255,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_90px_-30px_rgba(0,240,255,0.22)]"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-elevated">
-                  <Icon className="h-7 w-7 text-brand" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-gradient-to-br from-brand to-[#7c3aed]/70 text-white shadow-[0_18px_40px_-18px_rgba(0,240,255,0.45)]">
+                  <Icon className="h-7 w-7" />
                 </div>
-                <p className="mt-5 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-gold">
-                  [ {service.tag} ]
+                <p className="mt-5 inline-flex rounded-full bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand">
+                  {service.tag}
                 </p>
-                <h3 className="mt-2 font-display text-xl font-semibold text-ink">{service.title}</h3>
-                <p className="mt-3 text-[15px] leading-[1.7] text-ink-secondary">{service.description}</p>
-                <div className="mt-5 flex flex-wrap gap-2">
+                <h3 className="mt-4 font-display text-2xl font-semibold text-ink">{service.title}</h3>
+                <p className="mt-4 text-[15px] leading-[1.75] text-ink-secondary/90">{service.description}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
                   {service.capabilities.map((cap) => (
                     <span
                       key={cap}
-                      className="rounded-md border border-line bg-elevated px-2.5 py-1 text-xs text-ink-secondary"
+                      className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-ink-secondary"
                     >
                       {cap}
                     </span>
