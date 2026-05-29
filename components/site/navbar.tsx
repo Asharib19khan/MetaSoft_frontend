@@ -21,6 +21,22 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ]
 
+function NavLink({ href, label, active }: { href: string; label: string; active: boolean }) {
+  return (
+    <a
+      href={href}
+      className={`relative py-1 text-sm transition-colors ${
+        active ? "text-ink" : "text-ink-secondary hover:text-ink"
+      }`}
+    >
+      {label}
+      {active && (
+        <motion.span layoutId="nav-underline" className="absolute -bottom-0.5 left-0 right-0 h-px bg-brand" />
+      )}
+    </a>
+  )
+}
+
 export function Navbar() {
   const { scrollY, scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
@@ -150,6 +166,10 @@ export function Navbar() {
             </div>
           </nav>
         </div>
+        <motion.div
+          style={{ scaleX: progress }}
+          className="h-px origin-left bg-brand"
+        />
       </motion.header>
 
       {/* Mobile overlay */}

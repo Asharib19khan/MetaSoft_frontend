@@ -56,6 +56,7 @@ export function SelectField({ id, name, options, placeholder = "Select an option
         id={id}
         role="combobox"
         aria-expanded={open}
+        aria-controls={`${id}-listbox`}
         aria-haspopup="listbox"
         onClick={() => setOpen((o) => !o)}
         onKeyDown={handleKeyDown}
@@ -72,6 +73,7 @@ export function SelectField({ id, name, options, placeholder = "Select an option
       <AnimatePresence>
         {open && (
           <motion.ul
+            id={`${id}-listbox`}
             role="listbox"
             initial={{ opacity: 0, y: 6, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}

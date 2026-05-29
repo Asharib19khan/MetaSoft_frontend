@@ -73,7 +73,7 @@ export function Milestones() {
           <div className="absolute left-[7px] top-0 h-full w-px bg-gradient-to-b from-brand to-accent2 lg:hidden" />
 
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-4 lg:gap-6">
-            {MILESTONES.map((m, i) => (
+            {MILESTONES.map((m) => (
               <motion.div
                 key={m.year}
                 variants={fadeUp}
