@@ -24,7 +24,7 @@ const SERVICES = [
 ]
 
 const inputClass =
-  "w-full rounded-lg border border-line bg-white/[0.04] px-4 py-3 text-sm text-ink placeholder:text-ink-muted outline-none transition-all focus:border-brand focus:shadow-[0_0_0_3px_rgba(29,111,235,0.15)]"
+  "w-full rounded-lg border border-line bg-white/[0.04] px-4 py-3 text-sm text-ink placeholder:text-ink-muted outline-none transition-all focus:border-brand focus:shadow-[0_0_0_3px_rgba(30,155,151,0.15)]"
 const labelClass = "mb-1.5 block text-xs font-medium text-ink-secondary"
 
 export function Contact() {
@@ -159,7 +159,7 @@ export function Contact() {
               </div>
               <button
                 type="submit"
-                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 font-display text-base font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_28px_rgba(29,111,235,0.45)]"
+                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 font-display text-base font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_28px_rgba(30,155,151,0.45)]"
               >
                 Send Message <ArrowRight className="h-4 w-4" />
               </button>

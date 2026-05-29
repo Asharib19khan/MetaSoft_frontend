@@ -26,8 +26,8 @@ export function HeroVisual() {
       <svg viewBox="0 0 390 400" className="h-auto w-full" role="img" aria-label="Abstract server and database network illustration">
         <defs>
           <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#1D6FEB" />
-            <stop offset="100%" stopColor="#00C4CC" />
+            <stop offset="0%" stopColor="#1E9B97" />
+            <stop offset="100%" stopColor="#EBB424" />
           </linearGradient>
         </defs>
 
@@ -63,7 +63,7 @@ export function HeroVisual() {
             width="6"
             height="6"
             rx="1.5"
-            fill="#00C4CC"
+            fill="#EBB424"
             initial={{ x: nodes[a].x - 3, y: nodes[a].y - 3 }}
             animate={{ x: [nodes[a].x - 3, nodes[b].x - 3], y: [nodes[a].y - 3, nodes[b].y - 3] }}
             transition={{ duration: 2.4, delay: 1 + i * 0.5, repeat: Number.POSITIVE_INFINITY, repeatDelay: 1.5, ease: "easeInOut" }}
@@ -77,8 +77,8 @@ export function HeroVisual() {
               cx={n.x}
               cy={n.y}
               r="22"
-              fill="rgba(29,111,235,0.08)"
-              stroke="rgba(29,111,235,0.4)"
+              fill="rgba(30,155,151,0.08)"
+              stroke="rgba(30,155,151,0.4)"
               strokeWidth="1"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -88,7 +88,7 @@ export function HeroVisual() {
               cx={n.x}
               cy={n.y}
               r="7"
-              fill="#1D6FEB"
+              fill="#1E9B97"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.7 + i * 0.12 }}

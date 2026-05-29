@@ -71,11 +71,11 @@ export function About() {
             {Array.from({ length: 8 }).map((_, i) => (
               <line key={`h${i}`} x1="0" y1={i * 50} x2="400" y2={i * 50} stroke="rgba(255,255,255,0.04)" />
             ))}
-            <circle cx="200" cy="200" r="170" fill="none" stroke="rgba(29,111,235,0.5)" strokeWidth="1" />
-            <circle cx="200" cy="200" r="110" fill="none" stroke="rgba(0,196,204,0.35)" strokeWidth="1" />
-            <circle cx="200" cy="30" r="4" fill="#1D6FEB" />
-            <circle cx="370" cy="200" r="3" fill="#00C4CC" />
-            <circle cx="90" cy="310" r="3" fill="#C8A96E" />
+            <circle cx="200" cy="200" r="170" fill="none" stroke="rgba(30,155,151,0.5)" strokeWidth="1" />
+            <circle cx="200" cy="200" r="110" fill="none" stroke="rgba(235,180,36,0.35)" strokeWidth="1" />
+            <circle cx="200" cy="30" r="4" fill="#1E9B97" />
+            <circle cx="370" cy="200" r="3" fill="#EBB424" />
+            <circle cx="90" cy="310" r="3" fill="#EBB424" />
           </motion.svg>
 
           {/* floating glass stat cards */}
