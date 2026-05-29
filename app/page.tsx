@@ -7,10 +7,12 @@ import { Clients } from "@/components/site/clients"
 import { Team } from "@/components/site/team"
 import { Contact } from "@/components/site/contact"
 import { Footer } from "@/components/site/footer"
+import { SiteAnalyticsEvents } from "@/components/site/site-analytics-events"
 
 export default function Home() {
   return (
     <main className="relative overflow-x-hidden bg-base">
+      <SiteAnalyticsEvents />
       <Navbar />
       <Hero />
       <Services />

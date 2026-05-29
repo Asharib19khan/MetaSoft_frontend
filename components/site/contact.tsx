@@ -1,11 +1,20 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { ArrowRight, CheckCircle2, Clock, Globe, Mail, MapPin, Phone } from "lucide-react"
+import { track } from "@vercel/analytics"
+import Script from "next/script"
 import { fadeUp, stagger, viewport } from "./motion"
 import { SelectField } from "./select-field"
+
+declare global {
+  interface Window {
+    onTurnstileSuccess?: (token: string) => void
+    onTurnstileExpired?: () => void
+  }
+}
 
 const CONTACT_ROWS = [
   { icon: Phone, text: "+92 334 828 2077", href: "tel:+923348282077" },
@@ -29,15 +38,85 @@ const labelClass = "mb-1.5 block text-xs font-medium text-ink-secondary"
 
 export function Contact() {
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [service, setService] = useState("")
+  const [turnstileToken, setTurnstileToken] = useState("")
+  const [startedAt] = useState(() => Date.now())
+  const hasTrackedStart = useRef(false)
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""
 
-  function handleSubmit(e: React.FormEvent) {
+  useEffect(() => {
+    window.onTurnstileSuccess = (token: string) => {
+      setTurnstileToken(token)
+    }
+
+    window.onTurnstileExpired = () => {
+      setTurnstileToken("")
+    }
+
+    return () => {
+      window.onTurnstileSuccess = undefined
+      window.onTurnstileExpired = undefined
+    }
+  }, [])
+
+  function trackFormStart() {
+    if (hasTrackedStart.current) return
+    hasTrackedStart.current = true
+    track("contact_form_started")
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setSubmitted(true)
+
+    const formData = new FormData(e.currentTarget)
+    const payload = {
+      name: String(formData.get("name") || "").trim(),
+      company: String(formData.get("company") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      phone: String(formData.get("phone") || "").trim(),
+      service: String(formData.get("service") || "").trim(),
+      message: String(formData.get("message") || "").trim(),
+      website: String(formData.get("website") || "").trim(),
+      startedAt: Number(formData.get("startedAt") || startedAt),
+      turnstileToken: String(formData.get("turnstileToken") || "").trim(),
+    }
+
+    setSending(true)
+    setError(null)
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+
+      if (!response.ok) {
+        const data = (await response.json().catch(() => null)) as { error?: string } | null
+        throw new Error(data?.error || "Message could not be sent.")
+      }
+
+      setSubmitted(true)
+      track("contact_form_submitted", { status: "success", service: payload.service || "not-selected" })
+      setService("")
+      e.currentTarget.reset()
+    } catch (submissionError) {
+      track("contact_form_submitted", { status: "error" })
+      setError(submissionError instanceof Error ? submissionError.message : "Message could not be sent.")
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
     <section id="contact" className="relative bg-base py-24 lg:py-32">
+      {turnstileSiteKey && (
+        <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+      )}
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-14 px-5 lg:grid-cols-2 lg:px-8">
         {/* left */}
         <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
@@ -99,23 +178,40 @@ export function Contact() {
               <CheckCircle2 className="h-14 w-14 text-accent2" />
               <h3 className="mt-5 font-display text-2xl font-semibold text-ink">Message Sent</h3>
               <p className="mt-2 max-w-xs text-sm text-ink-secondary">
-                Thank you for reaching out. We&apos;ll get back to you within one business day.
+                Thank you for reaching out. Your message has been sent to our inbox and we&apos;ll get back to you within one business day.
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
+              <input type="hidden" name="startedAt" value={startedAt} />
+              <input type="hidden" name="turnstileToken" value={turnstileToken} />
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="name" className={labelClass}>
                     Full Name
                   </label>
-                  <input id="name" name="name" required className={inputClass} placeholder="Your name" />
+                  <input
+                    id="name"
+                    name="name"
+                    required
+                    className={inputClass}
+                    placeholder="Your name"
+                    onFocus={trackFormStart}
+                  />
                 </div>
                 <div>
                   <label htmlFor="company" className={labelClass}>
                     Company Name
                   </label>
-                  <input id="company" name="company" className={inputClass} placeholder="Your company" />
+                  <input id="company" name="company" className={inputClass} placeholder="Your company" onFocus={trackFormStart} />
                 </div>
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -123,13 +219,21 @@ export function Contact() {
                   <label htmlFor="email" className={labelClass}>
                     Email Address
                   </label>
-                  <input id="email" name="email" type="email" required className={inputClass} placeholder="you@company.com" />
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    className={inputClass}
+                    placeholder="you@company.com"
+                    onFocus={trackFormStart}
+                  />
                 </div>
                 <div>
                   <label htmlFor="phone" className={labelClass}>
                     Phone Number
                   </label>
-                  <input id="phone" name="phone" type="tel" className={inputClass} placeholder="+92 ..." />
+                  <input id="phone" name="phone" type="tel" className={inputClass} placeholder="+92 ..." onFocus={trackFormStart} />
                 </div>
               </div>
               <div>
@@ -142,7 +246,10 @@ export function Contact() {
                   options={SERVICES}
                   placeholder="Select a service"
                   value={service}
-                  onChange={setService}
+                  onChange={(value) => {
+                    trackFormStart()
+                    setService(value)
+                  }}
                 />
               </div>
               <div>
@@ -155,14 +262,34 @@ export function Contact() {
                   required
                   className={`${inputClass} min-h-[120px] resize-y`}
                   placeholder="Tell us about your project or challenge..."
+                  onFocus={trackFormStart}
                 />
               </div>
+              {turnstileSiteKey && (
+                <div
+                  className="cf-turnstile"
+                  data-sitekey={turnstileSiteKey}
+                  data-callback="onTurnstileSuccess"
+                  data-expired-callback="onTurnstileExpired"
+                  data-theme="light"
+                />
+              )}
               <button
                 type="submit"
-                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 font-display text-base font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_28px_rgba(30,155,151,0.45)]"
+                disabled={sending}
+                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 font-display text-base font-semibold text-white transition-all disabled:cursor-not-allowed disabled:opacity-70 hover:brightness-110 hover:shadow-[0_0_28px_rgba(30,155,151,0.45)]"
               >
-                Send Message <ArrowRight className="h-4 w-4" />
+                {sending ? "Sending..." : <>Send Message <ArrowRight className="h-4 w-4" /></>}
               </button>
+              {error && (
+                <p className="text-sm text-red-500">
+                  {error} If this keeps happening, email us directly at {" "}
+                  <a href="mailto:ashepic057@gmail.com" className="underline underline-offset-4">
+                    ashepic057@gmail.com
+                  </a>
+                  .
+                </p>
+              )}
             </form>
           )}
         </motion.div>

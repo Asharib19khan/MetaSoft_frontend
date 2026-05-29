@@ -60,7 +60,7 @@ export function SelectField({ id, name, options, placeholder = "Select an option
         aria-haspopup="listbox"
         onClick={() => setOpen((o) => !o)}
         onKeyDown={handleKeyDown}
-        className={`flex w-full items-center justify-between rounded-lg border border-line bg-white/[0.04] px-4 py-3 text-left text-sm outline-none transition-all focus:border-brand focus:shadow-[0_0_0_3px_rgba(30,155,151,0.15)] ${
+        className={`flex w-full items-center justify-between rounded-lg border border-line bg-elevated px-4 py-3 text-left text-sm outline-none transition-all focus:border-brand focus:shadow-[0_0_0_3px_rgba(30,155,151,0.15)] ${
           open ? "border-brand shadow-[0_0_0_3px_rgba(30,155,151,0.15)]" : ""
         } ${value ? "text-ink" : "text-ink-muted"}`}
       >

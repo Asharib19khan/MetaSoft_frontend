@@ -15,7 +15,7 @@ export function Footer() {
       <div className="mx-auto max-w-[1280px] px-5 py-14 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           <div>
-            <Logo />
+            <Logo className="h-14 w-auto sm:h-16" />
             <p className="mt-4 max-w-xs text-sm leading-[1.6] text-ink-secondary">
               Liberating Businesses from IT Complexity.
             </p>

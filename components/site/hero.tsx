@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { ArrowRight, ChevronDown, Diamond } from "lucide-react"
+import { track } from "@vercel/analytics"
 import { HeroVisual } from "./hero-visual"
 import { useCountUp } from "@/hooks/use-count-up"
 
@@ -102,15 +103,17 @@ export function Hero() {
           >
             <a
               href="#services"
+              onClick={() => track("cta_clicked", { placement: "hero", cta: "explore_services" })}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_28px_rgba(30,155,151,0.45)]"
             >
               Explore Services <ArrowRight className="h-4 w-4" />
             </a>
             <a
               href="#contact"
+              onClick={() => track("cta_clicked", { placement: "hero", cta: "book_consultation" })}
               className="inline-flex items-center justify-center rounded-full border border-line-hover px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-elevated"
             >
-              Contact Us
+              Book a 15-minute Consultation
             </a>
           </motion.div>
         </div>

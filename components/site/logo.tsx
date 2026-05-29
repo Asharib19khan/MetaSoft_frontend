@@ -1,19 +1,20 @@
 import Image from "next/image"
-import icon from "../../public/metasoft-icon.png"
 
-export function Logo() {
+type LogoProps = {
+  className?: string
+  priority?: boolean
+}
+
+export function Logo({ className = "h-10 w-auto sm:h-11", priority = true }: LogoProps) {
   return (
-    <div className="flex items-center gap-2.5">
-      <Image
-        src={icon}
-        alt="MetaSoft logo"
-        priority
-        className="h-8 w-auto"
-        sizes="32px"
-      />
-      <span className="font-display text-xl font-bold tracking-tight text-ink">
-        Meta<span className="text-gold">soft</span>
-      </span>
-    </div>
+    <Image
+      src="/metasoft-logo.png"
+      alt="MetaSoft"
+      width={448}
+      height={512}
+      priority={priority}
+      className={className}
+      sizes="(max-width: 640px) 180px, 220px"
+    />
   )
 }

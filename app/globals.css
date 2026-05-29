@@ -2,18 +2,18 @@
 
 @theme {
   /* Brand palette */
-  --color-base: #061513;
-  --color-surface: #0a1d1b;
-  --color-elevated: #102a27;
-  --color-brand: #1e9b97;
-  --color-brand-light: #2bb8b2;
+  --color-base: #f4f7f6;
+  --color-surface: #ffffff;
+  --color-elevated: #e7f0ed;
+  --color-brand: #0f6d69;
+  --color-brand-light: #1fa9a3;
   --color-accent2: #ebb424;
   --color-gold: #ebb424;
-  --color-ink: #eafaf8;
-  --color-ink-secondary: #8fb0ac;
-  --color-ink-muted: #4e6b67;
-  --color-line: rgba(255, 255, 255, 0.07);
-  --color-line-hover: rgba(30, 155, 151, 0.4);
+  --color-ink: #102824;
+  --color-ink-secondary: #4e6964;
+  --color-ink-muted: #7d918c;
+  --color-line: rgba(16, 40, 36, 0.16);
+  --color-line-hover: rgba(30, 155, 151, 0.36);
 
   /* Fonts */
   --font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
@@ -21,24 +21,24 @@
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* shadcn compatibility tokens (dark) */
-  --color-background: #061513;
-  --color-foreground: #eafaf8;
-  --color-card: #0a1d1b;
-  --color-card-foreground: #eafaf8;
-  --color-popover: #0a1d1b;
-  --color-popover-foreground: #eafaf8;
-  --color-primary: #1e9b97;
+  --color-background: #f4f7f6;
+  --color-foreground: #102824;
+  --color-card: #ffffff;
+  --color-card-foreground: #102824;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #102824;
+  --color-primary: #0f6d69;
   --color-primary-foreground: #ffffff;
-  --color-secondary: #102a27;
-  --color-secondary-foreground: #eafaf8;
-  --color-muted: #102a27;
-  --color-muted-foreground: #8fb0ac;
-  --color-accent: #102a27;
-  --color-accent-foreground: #eafaf8;
-  --color-destructive: #ef4444;
+  --color-secondary: #e7f0ed;
+  --color-secondary-foreground: #102824;
+  --color-muted: #eef4f2;
+  --color-muted-foreground: #4e6964;
+  --color-accent: #e7f0ed;
+  --color-accent-foreground: #102824;
+  --color-destructive: #b91c1c;
   --color-destructive-foreground: #ffffff;
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-input: rgba(255, 255, 255, 0.07);
+  --color-border: rgba(16, 40, 36, 0.24);
+  --color-input: rgba(16, 40, 36, 0.24);
   --color-ring: #1e9b97;
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -62,15 +62,15 @@
   }
 
   ::selection {
-    background-color: rgba(30, 155, 151, 0.35);
-    color: #ffffff;
+    background-color: rgba(30, 155, 151, 0.18);
+    color: #102824;
   }
 }
 
 @layer utilities {
   /* Subtle grain texture */
   .bg-noise {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
   }
 
   /* Dot grid */
@@ -84,10 +84,11 @@
   }
 
   .glass {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--color-line);
+    box-shadow: 0 6px 24px rgba(16, 40, 36, 0.04);
   }
 
   .gradient-rule {

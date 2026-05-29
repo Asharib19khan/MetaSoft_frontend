@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Database, Layers, Server, Lightbulb, ArrowRight, type LucideIcon } from "lucide-react"
+import { track } from "@vercel/analytics"
 import { SectionHeader } from "./section-header"
 import { fadeUp, stagger, viewport } from "./motion"
 
@@ -95,6 +96,7 @@ export function Services() {
                 </div>
                 <a
                   href="#contact"
+                  onClick={() => track("cta_clicked", { placement: "services_card", cta: "learn_more", service: service.title })}
                   className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-colors hover:text-brand-light"
                 >
                   Learn More <ArrowRight className="h-4 w-4" />
@@ -103,6 +105,16 @@ export function Services() {
             )
           })}
         </motion.div>
+
+        <div className="mt-10 flex justify-center">
+          <a
+            href="#contact"
+            onClick={() => track("cta_clicked", { placement: "services_section", cta: "book_consultation" })}
+            className="inline-flex items-center justify-center rounded-full bg-brand px-8 py-3 text-sm font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_24px_rgba(30,155,151,0.32)]"
+          >
+            Book a 15-minute Consultation
+          </a>
+        </div>
       </div>
     </section>
   )

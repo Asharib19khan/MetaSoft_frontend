@@ -26,17 +26,31 @@ export const metadata: Metadata = {
   title: "MetaSoft — Enterprise IT Services in Pakistan",
   description:
     "MetaSoft delivers expert Database Administration, Oracle EBS, System Administration, and IT Consulting to businesses across Pakistan. Based in Karachi since 2021.",
+  metadataBase: new URL("https://www.metasoft.com.pk"),
   generator: "v0.app",
+  applicationName: "MetaSoft",
+  icons: {
+    icon: "/metasoft-icon.png",
+    apple: "/metasoft-icon.png",
+  },
   openGraph: {
     title: "MetaSoft — Enterprise IT Services",
     description: "Liberating businesses from IT complexity since 2021.",
     type: "website",
+    url: "https://www.metasoft.com.pk",
+    images: ["/metasoft-logo.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MetaSoft — Enterprise IT Services",
+    description: "Liberating businesses from IT complexity since 2021.",
+    images: ["/metasoft-logo.png"],
   },
 }
 
 export const viewport: Viewport = {
-  themeColor: "#061513",
-  colorScheme: "dark",
+  themeColor: "#f4f7f6",
+  colorScheme: "light",
 }
 
 export default function RootLayout({

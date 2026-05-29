@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Diamond } from "lucide-react"
+import { track } from "@vercel/analytics"
 import { fadeUp, stagger, viewport } from "./motion"
 
 const VALUES = [
@@ -48,6 +49,15 @@ export function About() {
               </motion.div>
             ))}
           </motion.div>
+
+          <motion.a
+            variants={fadeUp}
+            href="#contact"
+            onClick={() => track("cta_clicked", { placement: "about_section", cta: "book_consultation" })}
+            className="mt-8 inline-flex rounded-full border border-line-hover px-7 py-3 text-sm font-semibold text-ink transition-colors hover:bg-elevated"
+          >
+            Book a 15-minute Consultation
+          </motion.a>
         </motion.div>
 
         {/* right decorative */}
