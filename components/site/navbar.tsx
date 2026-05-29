@@ -152,7 +152,7 @@ export function Navbar() {
             <div className="flex items-center gap-3">
               <a
                 href="#contact"
-                className="hidden rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_24px_rgba(29,111,235,0.45)] lg:inline-block"
+                className="hidden rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_24px_rgba(30,155,151,0.45)] lg:inline-block"
               >
                 Get in Touch
               </a>

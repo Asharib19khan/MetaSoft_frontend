@@ -62,8 +62,8 @@ export function Milestones() {
               />
               <defs>
                 <linearGradient id="tl-grad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#1D6FEB" />
-                  <stop offset="100%" stopColor="#00C4CC" />
+                  <stop offset="0%" stopColor="#1E9B97" />
+                  <stop offset="100%" stopColor="#EBB424" />
                 </linearGradient>
               </defs>
             </svg>

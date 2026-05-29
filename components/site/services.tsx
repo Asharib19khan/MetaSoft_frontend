@@ -73,7 +73,7 @@ export function Services() {
                 variants={fadeUp}
                 whileHover={{ scale: 1.02, y: -4 }}
                 transition={{ type: "spring", stiffness: 300, damping: 24 }}
-                className="group glass rounded-2xl p-7 transition-shadow duration-300 hover:border-line-hover hover:shadow-[0_0_40px_rgba(29,111,235,0.15)]"
+                className="group glass rounded-2xl p-7 transition-shadow duration-300 hover:border-line-hover hover:shadow-[0_0_40px_rgba(30,155,151,0.15)]"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-elevated">
                   <Icon className="h-7 w-7 text-brand" />

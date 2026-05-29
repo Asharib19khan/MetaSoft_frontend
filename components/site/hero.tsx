@@ -37,7 +37,7 @@ export function Hero() {
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(circle 700px at 18% 50%, rgba(29,111,235,0.18), transparent), radial-gradient(circle 520px at 78% 28%, rgba(0,196,204,0.12), transparent)",
+            "radial-gradient(circle 700px at 18% 50%, rgba(30,155,151,0.18), transparent), radial-gradient(circle 520px at 78% 28%, rgba(235,180,36,0.12), transparent)",
         }}
       />
 
@@ -102,7 +102,7 @@ export function Hero() {
           >
             <a
               href="#services"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_28px_rgba(29,111,235,0.45)]"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_28px_rgba(30,155,151,0.45)]"
             >
               Explore Services <ArrowRight className="h-4 w-4" />
             </a>

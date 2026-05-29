@@ -10,7 +10,7 @@ const TEAM = [
     name: "Muhammad Adnan Khan",
     role: "CTO · Founder",
     specialty: "Databases, ERP & Enterprise Architecture",
-    gradient: "linear-gradient(135deg, #1D6FEB, #00C4CC)",
+    gradient: "linear-gradient(135deg, #1E9B97, #EBB424)",
     experience: "20+ YRS",
   },
   {
@@ -18,21 +18,21 @@ const TEAM = [
     name: "Haris Ikram",
     role: "Systems Engineer",
     specialty: "Infrastructure & Network Admin",
-    gradient: "linear-gradient(135deg, #1D6FEB, #2D3A8C)",
+    gradient: "linear-gradient(135deg, #1E9B97, #0E4A47)",
   },
   {
     initials: "MS",
     name: "Muhammad Shoaib",
     role: "App Developer",
     specialty: "Mobile & Web App Development",
-    gradient: "linear-gradient(135deg, #00C4CC, #1D6FEB)",
+    gradient: "linear-gradient(135deg, #EBB424, #1E9B97)",
   },
   {
     initials: "AK",
     name: "Anwar Kamal",
     role: "Project Manager",
     specialty: "Delivery, PM & Documentation",
-    gradient: "linear-gradient(135deg, #C8A96E, #1D6FEB)",
+    gradient: "linear-gradient(135deg, #EBB424, #1E9B97)",
   },
 ]
 
@@ -58,7 +58,7 @@ export function Team() {
               key={member.name}
               variants={fadeUp}
               whileHover={{ y: -4 }}
-              className="glass flex flex-col items-center rounded-2xl p-7 text-center transition-shadow duration-300 hover:border-line-hover hover:shadow-[0_0_40px_rgba(29,111,235,0.15)]"
+              className="glass flex flex-col items-center rounded-2xl p-7 text-center transition-shadow duration-300 hover:border-line-hover hover:shadow-[0_0_40px_rgba(30,155,151,0.15)]"
             >
               <div
                 className="flex h-[72px] w-[72px] items-center justify-center rounded-full font-display text-2xl font-bold text-white"
