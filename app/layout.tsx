@@ -1,19 +1,19 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google"
+import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const syne = Syne({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["600", "700", "800"],
-})
-
-const dmSans = DM_Sans({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["400", "500", "600", "700"],
+})
+
+const plusJakartaDisplay = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["500", "600", "700", "800"],
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -23,35 +23,30 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "MetaSoft — Enterprise IT Services in Pakistan",
+  title: "MetaSoft | Enterprise Database Administration & Oracle Support",
   description:
-    "MetaSoft delivers expert Database Administration, Oracle EBS, System Administration, and IT Consulting to businesses across Pakistan. Based in Karachi since 2021.",
-  metadataBase: new URL("https://www.metasoft.com.pk"),
-  generator: "v0.app",
-  applicationName: "MetaSoft",
+    "MetaSoft provides mission-critical database administration, Oracle EBS support, and systems engineering for global enterprises.",
   icons: {
-    icon: "/metasoft-icon.png",
-    apple: "/metasoft-icon.png",
-  },
-  openGraph: {
-    title: "MetaSoft — Enterprise IT Services",
-    description: "Liberating businesses from IT complexity since 2021.",
-    type: "website",
-    url: "https://www.metasoft.com.pk",
-    images: ["/metasoft-logo.png"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "MetaSoft — Enterprise IT Services",
-    description: "Liberating businesses from IT complexity since 2021.",
-    images: ["/metasoft-logo.png"],
+    icon: "/favicon.ico",
   },
 }
 
 export const viewport: Viewport = {
-  themeColor: "#f4f7f6",
-  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
 }
+
+import { ThemeProvider } from "@/components/theme-provider"
+import { Navbar } from "@/components/site/navbar"
+import { Footer } from "@/components/site/footer"
+import { SiteAnalyticsEvents } from "@/components/site/site-analytics-events"
+import { CustomCursor } from "@/components/site/custom-cursor"
+import { FilmGrain } from "@/components/site/film-grain"
 
 export default function RootLayout({
   children,
@@ -59,10 +54,24 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="bg-base">
-      <body className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        {children}
-        {process.env.NODE_ENV === "production" && <Analytics />}
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning className={`${plusJakartaDisplay.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <FilmGrain />
+          <CustomCursor />
+          <div className="overflow-x-hidden bg-base selection:bg-brand/20 selection:text-ink min-h-screen flex flex-col">
+            <SiteAnalyticsEvents />
+            <Navbar />
+            {children}
+            <Footer />
+          </div>
+        </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )

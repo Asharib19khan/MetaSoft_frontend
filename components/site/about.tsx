@@ -1,107 +1,85 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Diamond } from "lucide-react"
 import { track } from "@vercel/analytics"
-import { fadeUp, stagger, viewport } from "./motion"
 
 const VALUES = [
-  { title: "Excellence", text: "We hold our output to the standards of the world's best IT shops." },
-  { title: "Innovation", text: "Modern solutions applied to both legacy infrastructure and greenfield projects." },
-  { title: "Client Centricity", text: "We measure success by yours, not by hours billed." },
+  { title: "Technical Precision", text: "All infrastructure integrations are designed for operational availability, security, and performance." },
+  { title: "Proactive Telemetry", text: "Integrating modern logging, database telemetry, and security patching into production servers." },
+  { title: "Engineering Support", text: "Structured incident response workflows and clear, direct communication with senior engineers." },
+]
+
+const DIFFERENTIATORS = [
+  { label: "20+ Years", text: "Combined technical and database operations experience." },
+  { label: "5 Industries", text: "Supporting platforms in finance, manufacturing, and retail." },
+  { label: "24/7 Support", text: "Continuous database administration and server monitoring." },
 ]
 
 export function About() {
   return (
-    <section id="about" className="relative bg-base py-24 lg:py-32">
-      <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-14 px-5 lg:grid-cols-[55fr_45fr] lg:px-8">
-        {/* left */}
-        <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
-          <motion.span variants={fadeUp} className="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-brand">
-            About MetaSoft
-          </motion.span>
-          <motion.h2
-            variants={fadeUp}
-            className="mt-3 text-balance font-display text-3xl font-bold leading-[1.1] tracking-[-0.02em] text-ink sm:text-4xl lg:text-5xl"
-          >
-            Two Decades of Expertise. One Company Built Around Yours.
-          </motion.h2>
-          <motion.div variants={fadeUp} className="mt-5 h-px w-40 gradient-rule" />
+    <section id="about" className="bg-base section-padding">
+      <div className="mx-auto grid max-w-[1280px] gap-14 px-5 lg:grid-cols-[55fr_45fr] lg:px-8 lg:gap-20">
 
-          <motion.p variants={fadeUp} className="mt-6 text-base leading-[1.75] text-ink-secondary">
-            Founded in 2021 in Karachi, MetaSoft has rapidly become a trusted IT partner for organizations across
-            Pakistan&apos;s finance, healthcare, manufacturing, and technology sectors. Our CTO and founder, Muhammad
-            Adnan Khan, brings over 20 years of hands-on enterprise IT experience — spanning relational database design,
-            ERP systems, and large-scale infrastructure projects.
-          </motion.p>
-          <motion.p variants={fadeUp} className="mt-4 text-base leading-[1.75] text-ink-secondary">
-            We&apos;re not a generalist agency. We&apos;re a specialized team that goes deep, not wide — bringing
-            enterprise-grade rigor to every engagement, whether on-site or remote.
-          </motion.p>
+        {/* Left column */}
+        <div>
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-brand mb-3">About MetaSoft</p>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl max-w-2xl leading-[1.12]">
+            Grounded expertise in systems and database operations.
+          </h2>
+          <div className="mt-5 h-px w-16 bg-brand/40" />
 
-          <motion.div variants={stagger} className="mt-8 flex flex-col gap-4">
-            {VALUES.map((v) => (
-              <motion.div key={v.title} variants={fadeUp} className="flex items-start gap-3">
-                <Diamond className="mt-1 h-3.5 w-3.5 shrink-0 fill-brand text-brand" />
-                <p className="text-[15px] leading-[1.6] text-ink-secondary">
-                  <span className="font-semibold text-ink">{v.title}</span> — {v.text}
-                </p>
-              </motion.div>
+          <p className="mt-6 text-base leading-[1.8] text-ink-secondary">
+            Established in Karachi, MetaSoft specializes in managing complex IT environments. We help enterprises reduce operational risks, optimize database architectures, and maintain high availability across critical servers and cloud systems.
+          </p>
+          <p className="mt-4 text-base leading-[1.8] text-ink-secondary">
+            We work alongside internal technology teams to deploy structured database administration frameworks, Oracle EBS life-cycle management, and secure server networking configurations.
+          </p>
+
+          {/* Values */}
+          <div className="mt-10 grid gap-3 sm:grid-cols-2">
+            {VALUES.map((value) => (
+              <div
+                key={value.title}
+                className="rounded-xl border border-line bg-surface p-5 shadow-sm"
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-brand">{value.title}</p>
+                <p className="mt-2.5 text-sm leading-[1.75] text-ink-secondary">{value.text}</p>
+              </div>
             ))}
-          </motion.div>
+          </div>
 
-          <motion.a
-            variants={fadeUp}
-            href="#contact"
-            onClick={() => track("cta_clicked", { placement: "about_section", cta: "book_consultation" })}
-            className="mt-8 inline-flex rounded-full border border-line-hover px-7 py-3 text-sm font-semibold text-ink transition-colors hover:bg-elevated"
-          >
-            Book a 15-minute Consultation
-          </motion.a>
-        </motion.div>
+          <div className="mt-8">
+            <a
+              href="#contact"
+              onClick={() => track("cta_clicked", { placement: "about_section", cta: "book_consultation" })}
+              className="inline-flex items-center gap-2 bg-ink px-8 py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-1 hover:bg-ink-secondary"
+            >
+              Contact our team
+            </a>
+          </div>
+        </div>
 
-        {/* right decorative */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={viewport}
-          transition={{ duration: 0.8 }}
-          className="relative mx-auto h-[400px] w-full max-w-[420px]"
-        >
-          <motion.svg
-            viewBox="0 0 400 400"
-            className="absolute inset-0 h-full w-full"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 120, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-            aria-hidden="true"
-          >
-            {Array.from({ length: 8 }).map((_, i) => (
-              <line key={`v${i}`} x1={i * 50} y1="0" x2={i * 50} y2="400" stroke="rgba(255,255,255,0.04)" />
+        {/* Right column */}
+        <div className="flex flex-col gap-4">
+          <div className="rounded-2xl border border-line bg-surface p-7 shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-brand">Enterprise Focus</p>
+            <h3 className="mt-4 font-display text-2xl font-semibold text-ink leading-snug">Technical alignment with business goals.</h3>
+            <p className="mt-4 text-sm leading-[1.75] text-ink-secondary">
+              We ensure database tuning, capacity planning, and virtualization strategies are executed with technical clarity, documentation, and governance.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            {DIFFERENTIATORS.map((item) => (
+              <div
+                key={item.label}
+                className="rounded-xl border border-line bg-surface p-5 shadow-sm"
+              >
+                <p className="text-sm font-bold uppercase tracking-[0.18em] text-ink">{item.label}</p>
+                <p className="mt-2 text-sm leading-[1.7] text-ink-secondary">{item.text}</p>
+              </div>
             ))}
-            {Array.from({ length: 8 }).map((_, i) => (
-              <line key={`h${i}`} x1="0" y1={i * 50} x2="400" y2={i * 50} stroke="rgba(255,255,255,0.04)" />
-            ))}
-            <circle cx="200" cy="200" r="170" fill="none" stroke="rgba(30,155,151,0.5)" strokeWidth="1" />
-            <circle cx="200" cy="200" r="110" fill="none" stroke="rgba(235,180,36,0.35)" strokeWidth="1" />
-            <circle cx="200" cy="30" r="4" fill="#1E9B97" />
-            <circle cx="370" cy="200" r="3" fill="#EBB424" />
-            <circle cx="90" cy="310" r="3" fill="#EBB424" />
-          </motion.svg>
-
-          {/* floating glass stat cards */}
-          <div className="absolute left-2 top-10 glass rounded-xl px-4 py-3">
-            <p className="font-mono text-2xl font-bold text-ink">99.9%</p>
-            <p className="text-xs text-ink-secondary">Uptime focus</p>
           </div>
-          <div className="absolute bottom-12 right-2 glass rounded-xl px-4 py-3">
-            <p className="font-mono text-2xl font-bold text-ink">24/7</p>
-            <p className="text-xs text-ink-secondary">Remote support</p>
-          </div>
-          <div className="absolute bottom-4 left-8 glass rounded-xl px-4 py-3">
-            <p className="font-mono text-2xl font-bold text-ink">2021</p>
-            <p className="text-xs text-ink-secondary">Founded in Karachi</p>
-          </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

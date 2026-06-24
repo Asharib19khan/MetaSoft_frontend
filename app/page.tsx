@@ -1,27 +1,23 @@
-import { Navbar } from "@/components/site/navbar"
 import { Hero } from "@/components/site/hero"
-import { Services } from "@/components/site/services"
-import { About } from "@/components/site/about"
-import { Milestones } from "@/components/site/milestones"
-import { Clients } from "@/components/site/clients"
-import { Team } from "@/components/site/team"
-import { Contact } from "@/components/site/contact"
-import { Footer } from "@/components/site/footer"
-import { SiteAnalyticsEvents } from "@/components/site/site-analytics-events"
+import { TechMarquee } from "@/components/blocks/tech-marquee"
+import { ImpactStudies } from "@/components/blocks/impact-studies"
+import { SectionTwoDemo } from "@/components/blocks/section-two"
+import { MissionBreak } from "@/components/blocks/mission-break"
+import { GlobalPresence } from "@/components/blocks/global-presence"
+import { TrustSection } from "@/components/blocks/trust-section"
+import { Insights } from "@/components/blocks/insights"
 
 export default function Home() {
   return (
-    <main className="relative overflow-x-hidden bg-base">
-      <SiteAnalyticsEvents />
-      <Navbar />
+    <main className="flex flex-col min-h-screen bg-base overflow-hidden">
       <Hero />
-      <Services />
-      <About />
-      <Milestones />
-      <Clients />
-      <Team />
-      <Contact />
-      <Footer />
+      <TechMarquee />
+      <ImpactStudies />
+      <SectionTwoDemo />
+      <MissionBreak />
+      <GlobalPresence />
+      <TrustSection />
+      <Insights />
     </main>
   )
 }

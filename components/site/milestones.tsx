@@ -1,93 +1,36 @@
-"use client"
-
-import { motion } from "framer-motion"
-import { fadeUp, stagger, viewport } from "./motion"
-
 const MILESTONES = [
-  { year: "2021", title: "Founded", text: "Founded in Karachi, Pakistan. First team assembled." },
-  {
-    year: "2022",
-    title: "First Contracts",
-    text: "Signed with Phoenix and National Medical Centre — establishing our enterprise credentials.",
-  },
-  {
-    year: "2023",
-    title: "Rapid Growth",
-    text: "Expanded to six-plus clients across diversified industries and service domains.",
-  },
-  {
-    year: "2024",
-    title: "Scaling Up",
-    text: "Four additional enterprise contracts in progress — continuing our trajectory.",
-  },
+  { year: "2021", title: "Foundation", text: "Founded in Karachi with a mission to deliver enterprise-grade IT operations." },
+  { year: "2022", title: "First Enterprise Wins", text: "Secured performance and migration contracts with Phoenix and National Medical Centre." },
+  { year: "2023", title: "Capability Scale", text: "Expanded to secure, manage, and consult across five vertical industries." },
+  { year: "2024", title: "Maturity", text: "Built a reliable operations and delivery model for continuous improvement." },
 ]
 
 export function Milestones() {
   return (
-    <section id="milestones" className="relative bg-elevated py-24 lg:py-32">
+    <section id="milestones" className="bg-surface section-padding">
       <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
-        <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
-          <motion.span variants={fadeUp} className="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-brand">
-            Our Journey
-          </motion.span>
-          <motion.h2
-            variants={fadeUp}
-            className="mt-3 font-display text-3xl font-bold tracking-[-0.02em] text-ink sm:text-4xl lg:text-5xl"
-          >
-            Four Years. Steady Growth.
-          </motion.h2>
-        </motion.div>
+        <div className="mb-14">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-brand mb-3">Our Journey</p>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl max-w-3xl">
+            Built with consistency, delivered with enterprise confidence.
+          </h2>
+        </div>
 
-        {/* line */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={stagger}
-          className="relative mt-16"
-        >
-          <div className="absolute left-0 top-[7px] hidden h-px w-full lg:block">
-            <svg className="h-2 w-full" preserveAspectRatio="none" viewBox="0 0 100 1">
-              <motion.line
-                x1="0"
-                y1="0.5"
-                x2="100"
-                y2="0.5"
-                stroke="url(#tl-grad)"
-                strokeWidth="2"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={viewport}
-                transition={{ duration: 1.2, ease: "easeInOut" }}
-              />
-              <defs>
-                <linearGradient id="tl-grad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#1E9B97" />
-                  <stop offset="100%" stopColor="#EBB424" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
-          {/* vertical line for mobile */}
-          <div className="absolute left-[7px] top-0 h-full w-px bg-gradient-to-b from-brand to-accent2 lg:hidden" />
-
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-4 lg:gap-6">
-            {MILESTONES.map((m) => (
-              <motion.div
-                key={m.year}
-                variants={fadeUp}
-                className="relative pl-8 lg:pl-0"
-              >
-                <span className="absolute left-0 top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 border-line-hover bg-base lg:left-0 lg:top-0">
-                  <span className="h-2 w-2 rounded-full bg-brand" />
-                </span>
-                <p className="font-mono text-sm font-bold text-gold lg:mt-7">{m.year} · {m.title}</p>
-                <p className="mt-2 text-[15px] leading-[1.6] text-ink-secondary">{m.text}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {MILESTONES.map((milestone, index) => (
+            <article
+              key={milestone.year}
+              className="rounded-2xl border border-white/8 bg-elevated p-7"
+            >
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-brand">{milestone.year}</p>
+              <h3 className="mt-5 font-display text-lg font-semibold text-ink">{milestone.title}</h3>
+              <p className="mt-3 text-sm leading-[1.8] text-ink-secondary">{milestone.text}</p>
+              <span className="mt-6 inline-flex rounded-full border border-white/8 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-ink-muted">
+                Phase {index + 1}
+              </span>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   )

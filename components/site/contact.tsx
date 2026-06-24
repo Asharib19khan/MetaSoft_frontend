@@ -51,7 +51,7 @@ const today = new Date()
 today.setHours(0, 0, 0, 0)
 
 const inputClass =
-  "w-full rounded-lg border border-line bg-white/[0.04] px-4 py-3 text-sm text-ink placeholder:text-ink-muted outline-none transition-all focus:border-brand focus:shadow-[0_0_0_3px_rgba(30,155,151,0.15)]"
+  "w-full rounded-lg border border-line bg-surface px-4 py-3 text-sm text-ink placeholder:text-ink-muted outline-none transition-all focus:border-brand focus:shadow-[0_0_0_3px_rgba(30,155,151,0.15)]"
 const labelClass = "mb-1.5 block text-xs font-medium text-ink-secondary"
 
 export function Contact() {
@@ -67,14 +67,8 @@ export function Contact() {
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""
 
   useEffect(() => {
-    window.onTurnstileSuccess = (token: string) => {
-      setTurnstileToken(token)
-    }
-
-    window.onTurnstileExpired = () => {
-      setTurnstileToken("")
-    }
-
+    window.onTurnstileSuccess = (token: string) => setTurnstileToken(token)
+    window.onTurnstileExpired = () => setTurnstileToken("")
     return () => {
       window.onTurnstileSuccess = undefined
       window.onTurnstileExpired = undefined
@@ -89,7 +83,6 @@ export function Contact() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
     const formData = new FormData(e.currentTarget)
     const payload = {
       name: String(formData.get("name") || "").trim(),
@@ -107,21 +100,12 @@ export function Contact() {
 
     setSending(true)
     setError(null)
-
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      })
-
+      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
       if (!response.ok) {
         const data = (await response.json().catch(() => null)) as { error?: string } | null
         throw new Error(data?.error || "Message could not be sent.")
       }
-
       setSubmitted(true)
       track("contact_form_submitted", { status: "success", service: payload.service || "not-selected" })
       setService("")
@@ -138,253 +122,129 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="relative bg-base py-24 lg:py-32">
-      {turnstileSiteKey && (
-        <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
-      )}
-      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-14 px-5 lg:grid-cols-2 lg:px-8">
-        {/* left */}
-        <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
-          <motion.span variants={fadeUp} className="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-brand">
-            Get in Touch
-          </motion.span>
-          <motion.h2
-            variants={fadeUp}
-            className="mt-3 text-balance font-display text-3xl font-bold tracking-[-0.02em] text-ink sm:text-4xl lg:text-5xl"
-          >
-            Let&apos;s Talk About Your IT Challenges.
-          </motion.h2>
-          <motion.p variants={fadeUp} className="mt-6 max-w-md text-base leading-[1.75] text-ink-secondary">
-            Whether you need database rescue, EBS migration, infrastructure consulting, or a long-term IT partner —
-            we&apos;re ready to engage. Reach out and we&apos;ll respond within one business day.
-          </motion.p>
+    <section id="contact" className="relative bg-base/90 py-24 lg:py-32">
+      {turnstileSiteKey && <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />}
 
-          <motion.div variants={stagger} className="mt-8 flex flex-col gap-1">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-brand/10 to-transparent" aria-hidden="true" />
+      <div className="mx-auto grid max-w-[1280px] gap-14 px-5 lg:grid-cols-[44fr_56fr] lg:px-8">
+        <motion.div initial="hidden" whileInView="visible" viewport={viewport} variants={stagger}>
+          <motion.span variants={fadeUp} className="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-brand">Contact Us</motion.span>
+          <motion.h2 variants={fadeUp} className="mt-3 max-w-3xl text-balance font-display text-3xl font-bold tracking-[-0.03em] text-ink sm:text-4xl lg:text-5xl">Inquire about our managed services and systems support.</motion.h2>
+          <motion.p variants={fadeUp} className="mt-6 max-w-xl text-base leading-[1.8] text-ink-secondary">Specify your infrastructure challenges, database environment size, or current technical requirements. Our engineering team will review and provide a structured operational response.</motion.p>
+
+          <motion.div variants={stagger} className="mt-10 grid gap-4">
             {CONTACT_ROWS.map((row) => {
               const Icon = row.icon
               const content = (
-                <div className="group flex items-center gap-3 rounded-lg px-2 py-2.5">
-                  <Icon className="h-5 w-5 shrink-0 text-brand" />
-                  <span className="text-[15px] text-ink-secondary transition-colors group-hover:text-ink">
-                    {row.text}
-                  </span>
+                <div className="flex items-center gap-3 rounded-[26px] border border-line bg-surface/80 px-4 py-3 transition hover:border-brand hover:bg-elevated">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/10 text-brand"><Icon className="h-5 w-5" /></span>
+                  <span className="text-sm text-ink-secondary transition-colors hover:text-ink">{row.text}</span>
                 </div>
               )
               return (
-                <motion.div key={row.text} variants={fadeUp}>
-                  {row.href ? (
-                    <a href={row.href} className="block">
-                      {content}
-                    </a>
-                  ) : (
-                    content
-                  )}
-                </motion.div>
+                <motion.div key={row.text} variants={fadeUp}>{row.href ? <a href={row.href}>{content}</a> : content}</motion.div>
               )
             })}
           </motion.div>
 
-          <motion.div variants={fadeUp} className="mt-8 h-px w-full bg-line" />
-          <motion.p variants={fadeUp} className="mt-6 font-display text-lg italic text-gold">
-            &ldquo;We look forward to working with you.&rdquo;
-          </motion.p>
+          <motion.div variants={fadeUp} className="mt-10 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-[28px] border border-line bg-surface/80 p-6">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-brand">What to expect</p>
+              <p className="mt-4 text-sm leading-[1.8] text-ink-secondary">You will receive a response directly from a systems administrator or database engineer within one business day.</p>
+            </div>
+            <div className="rounded-[28px] border border-line bg-surface/80 p-6">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-brand">What we require</p>
+              <p className="mt-4 text-sm leading-[1.8] text-ink-secondary">Please specify your database engine type, host count, and whether you require urgent incident resolution or ongoing managed operations.</p>
+            </div>
+          </motion.div>
         </motion.div>
 
-        {/* right form */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={viewport}
-          transition={{ duration: 0.6 }}
-          className="glass rounded-2xl p-7 lg:p-8"
-        >
-          {submitted ? (
-            <div className="flex h-full min-h-[420px] flex-col items-center justify-center text-center">
-              <CheckCircle2 className="h-14 w-14 text-accent2" />
-              <h3 className="mt-5 font-display text-2xl font-semibold text-ink">Message Sent</h3>
-              <p className="mt-2 max-w-xs text-sm text-ink-secondary">
-                Thank you for reaching out. Your message has been sent to our inbox and we&apos;ll get back to you within one business day.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <input
-                type="text"
-                name="website"
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                className="hidden"
-              />
-              <input type="hidden" name="startedAt" value={startedAt} />
-              <input type="hidden" name="turnstileToken" value={turnstileToken} />
-              <input type="hidden" name="meetingDate" value={meetingDate?.toISOString().slice(0, 10) || ""} />
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="name" className={labelClass}>
-                    Full Name
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    required
-                    className={inputClass}
-                    placeholder="Your name"
-                    onFocus={trackFormStart}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="company" className={labelClass}>
-                    Company Name
-                  </label>
-                  <input id="company" name="company" className={inputClass} placeholder="Your company" onFocus={trackFormStart} />
-                </div>
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={viewport} transition={{ duration: 0.7 }} className="relative">
+          <div className="glass rounded-[32px] border border-line p-7 shadow-xl">
+            <div className="absolute inset-x-0 top-0 h-20 rounded-t-[32px] bg-gradient-to-b from-brand/5 to-transparent" aria-hidden="true" />
+            {submitted ? (
+              <div className="flex min-h-[520px] flex-col items-center justify-center text-center">
+                <CheckCircle2 className="h-14 w-14 text-accent2" />
+                <h3 className="mt-5 font-display text-2xl font-semibold text-ink">Message Sent</h3>
+                <p className="mt-2 max-w-xs text-sm text-ink-secondary">Thank you for reaching out. Your message has been sent and we'll respond within one business day.</p>
               </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="email" className={labelClass}>
-                    Email Address
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    className={inputClass}
-                    placeholder="you@company.com"
-                    onFocus={trackFormStart}
-                  />
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+                <input type="hidden" name="startedAt" value={startedAt} />
+                <input type="hidden" name="turnstileToken" value={turnstileToken} />
+                <input type="hidden" name="meetingDate" value={meetingDate?.toISOString().slice(0, 10) || ""} />
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="name" className={labelClass}>Full Name</label>
+                    <input id="name" name="name" required className={inputClass} placeholder="Your name" onFocus={trackFormStart} />
+                  </div>
+                  <div>
+                    <label htmlFor="company" className={labelClass}>Company Name</label>
+                    <input id="company" name="company" className={inputClass} placeholder="Your company" onFocus={trackFormStart} />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="phone" className={labelClass}>
-                    Phone Number
-                  </label>
-                  <input id="phone" name="phone" type="tel" className={inputClass} placeholder="+92 ..." onFocus={trackFormStart} />
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="email" className={labelClass}>Email Address</label>
+                    <input id="email" name="email" type="email" required className={inputClass} placeholder="you@company.com" onFocus={trackFormStart} />
+                  </div>
+                  <div>
+                    <label htmlFor="phone" className={labelClass}>Phone Number</label>
+                    <input id="phone" name="phone" type="tel" className={inputClass} placeholder="+92 ..." onFocus={trackFormStart} />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <label htmlFor="service" className={labelClass}>
-                  Service Needed
-                </label>
-                <SelectField
-                  id="service"
-                  name="service"
-                  options={SERVICES}
-                  placeholder="Select a service"
-                  value={service}
-                  onChange={(value) => {
-                    trackFormStart()
-                    setService(value)
-                  }}
-                />
-              </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
                 <div>
-                  <label htmlFor="meetingDate" className={labelClass}>
-                    Preferred meeting date
-                  </label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <button
-                        type="button"
-                        id="meetingDate"
-                        className={`${inputClass} flex items-center justify-between`}
-                        onFocus={trackFormStart}
-                        aria-label="Choose a preferred meeting date"
-                      >
-                        <span className={`truncate ${meetingDate ? "text-ink" : "text-ink-muted"}`}>
-                          {meetingDate
-                            ? meetingDate.toLocaleDateString(undefined, {
-                                weekday: "short",
-                                month: "short",
-                                day: "numeric",
-                              })
-                            : "Choose a date"}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <CalendarDays className="h-4 w-4 text-ink-secondary" />
-                          <ChevronDown className="h-4 w-4 text-ink-secondary" />
+                  <label htmlFor="service" className={labelClass}>Service Needed</label>
+                  <SelectField id="service" name="service" options={SERVICES} placeholder="Select a service" value={service} onChange={(value) => { trackFormStart(); setService(value) }} />
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="meetingDate" className={labelClass}>Preferred meeting date</label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <button type="button" id="meetingDate" className={`${inputClass} flex items-center justify-between`} onFocus={trackFormStart} aria-label="Choose a preferred meeting date">
+                          <span className={`truncate ${meetingDate ? "text-ink" : "text-ink-muted"}`}>{meetingDate ? meetingDate.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }) : "Choose a date"}</span>
+                          <div className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-ink-secondary" /><ChevronDown className="h-4 w-4 text-ink-secondary" /></div>
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[23rem] p-0">
+                        <Calendar mode="single" selected={meetingDate} onSelect={(date) => { trackFormStart(); setMeetingDate(date ?? undefined) }} disabled={{ before: today }} fromDate={today} />
+                        <div className="border-t border-line p-3 text-right">
+                          <PopoverPrimitive.Close asChild>
+                            <Button variant="secondary" size="sm" type="button">Done</Button>
+                          </PopoverPrimitive.Close>
                         </div>
-                      </button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[23rem] p-0">
-                      <Calendar
-                        mode="single"
-                        selected={meetingDate}
-                        onSelect={(date) => {
-                          trackFormStart()
-                          setMeetingDate(date ?? undefined)
-                        }}
-                        disabled={{ before: today }}
-                        fromDate={today}
-                      />
-                      <div className="border-t border-line p-3 text-right">
-                        <PopoverPrimitive.Close asChild>
-                          <Button variant="secondary" size="sm" type="button">
-                            Done
-                          </Button>
-                        </PopoverPrimitive.Close>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div>
+                    <label htmlFor="meetingTime" className={labelClass}>Preferred meeting time</label>
+                    <SelectField id="meetingTime" name="meetingTime" options={MEETING_TIMES} placeholder="Select a time" value={meetingTime} onChange={(value) => { trackFormStart(); setMeetingTime(value) }} />
+                  </div>
                 </div>
+
                 <div>
-                  <label htmlFor="meetingTime" className={labelClass}>
-                    Preferred meeting time
-                  </label>
-                  <SelectField
-                    id="meetingTime"
-                    name="meetingTime"
-                    options={MEETING_TIMES}
-                    placeholder="Select a time"
-                    value={meetingTime}
-                    onChange={(value) => {
-                      trackFormStart()
-                      setMeetingTime(value)
-                    }}
-                  />
+                  <label htmlFor="message" className={labelClass}>Message</label>
+                  <textarea id="message" name="message" required className={`${inputClass} min-h-[140px] resize-y`} placeholder="Tell us about your project or challenge..." onFocus={trackFormStart} />
                 </div>
-              </div>
-              <div>
-                <label htmlFor="message" className={labelClass}>
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  className={`${inputClass} min-h-[120px] resize-y`}
-                  placeholder="Tell us about your project or challenge..."
-                  onFocus={trackFormStart}
-                />
-              </div>
-              {turnstileSiteKey && (
-                <div
-                  className="cf-turnstile"
-                  data-sitekey={turnstileSiteKey}
-                  data-callback="onTurnstileSuccess"
-                  data-expired-callback="onTurnstileExpired"
-                  data-theme="light"
-                />
-              )}
-              <button
-                type="submit"
-                disabled={sending}
-                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 font-display text-base font-semibold text-white transition-all disabled:cursor-not-allowed disabled:opacity-70 hover:brightness-110 hover:shadow-[0_0_28px_rgba(30,155,151,0.45)]"
-              >
-                {sending ? "Sending..." : <>Send Message <ArrowRight className="h-4 w-4" /></>}
-              </button>
-              {error && (
-                <p role="alert" aria-live="polite" className="text-sm text-red-500">
-                  {error} If this keeps happening, email us directly at {" "}
-                  <a href="mailto:ashepic057@gmail.com" className="underline underline-offset-4">
-                    ashepic057@gmail.com
-                  </a>
-                  .
-                </p>
-              )}
-            </form>
-          )}
+
+                {turnstileSiteKey && <div className="cf-turnstile" data-sitekey={turnstileSiteKey} data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-theme="light" />}
+
+                <div className="mt-2">
+                  <Button type="submit" variant="floating" size="lg" disabled={sending} className="w-full">
+                    {sending ? "Sending..." : <><span>Send Message</span> <ArrowRight className="h-4 w-4" /></>}
+                  </Button>
+                </div>
+
+                {error && <p role="alert" aria-live="polite" className="text-sm text-red-500">{error} If this keeps happening, email us directly at <a href="mailto:ashepic057@gmail.com" className="underline underline-offset-4">ashepic057@gmail.com</a>.</p>}
+              </form>
+            )}
+          </div>
         </motion.div>
       </div>
     </section>

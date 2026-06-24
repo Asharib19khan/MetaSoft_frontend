@@ -1,16 +1,9 @@
-"use client"
-
-import { motion } from "framer-motion"
-import { SectionHeader } from "./section-header"
-import { fadeUp, stagger, viewport } from "./motion"
-
 const TEAM = [
   {
     initials: "AK",
     name: "Muhammad Adnan Khan",
     role: "CTO · Founder",
     specialty: "Databases, ERP & Enterprise Architecture",
-    gradient: "linear-gradient(135deg, #1E9B97, #EBB424)",
     experience: "20+ YRS",
   },
   {
@@ -18,65 +11,53 @@ const TEAM = [
     name: "Haris Ikram",
     role: "Systems Engineer",
     specialty: "Infrastructure & Network Admin",
-    gradient: "linear-gradient(135deg, #1E9B97, #0E4A47)",
   },
   {
     initials: "MS",
     name: "Muhammad Shoaib",
     role: "App Developer",
     specialty: "Mobile & Web App Development",
-    gradient: "linear-gradient(135deg, #EBB424, #1E9B97)",
   },
   {
     initials: "AK",
     name: "Anwar Kamal",
     role: "Project Manager",
     specialty: "Delivery, PM & Documentation",
-    gradient: "linear-gradient(135deg, #EBB424, #1E9B97)",
   },
 ]
 
 export function Team() {
   return (
-    <section id="team" className="relative bg-surface py-24 lg:py-32">
+    <section id="team" className="bg-surface section-padding">
       <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
-        <SectionHeader
-          label="The Team"
-          title="Small Team. Deep Expertise."
-          subtitle="Four specialists. Zero generalists."
-        />
+        <div className="mb-14">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-brand mb-3">The Team</p>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl max-w-2xl">
+            A focused crew with enterprise experience.
+          </h2>
+          <p className="mt-4 text-base text-ink-secondary">Small, senior, and built to execute in complex environments.</p>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={stagger}
-          className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-        >
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {TEAM.map((member) => (
-            <motion.article
+            <article
               key={member.name}
-              variants={fadeUp}
-              whileHover={{ y: -4 }}
-              className="glass flex flex-col items-center rounded-2xl p-7 text-center transition-shadow duration-300 hover:border-line-hover hover:shadow-[0_0_40px_rgba(30,155,151,0.15)]"
+              className="rounded-2xl border border-white/8 bg-elevated p-7 text-center"
             >
-              <div
-                className="flex h-[72px] w-[72px] items-center justify-center rounded-full font-display text-2xl font-bold text-white"
-                style={{ background: member.gradient }}
-              >
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 border border-brand/20 text-xl font-bold text-brand">
                 {member.initials}
               </div>
-              <h3 className="mt-5 font-display text-lg font-semibold text-ink">{member.name}</h3>
-              <p className="mt-1 text-[13px] font-medium uppercase tracking-[0.08em] text-gold">{member.role}</p>
-              <p className="mt-3 text-sm text-ink-secondary">{member.specialty}</p>
+              <h3 className="mt-5 font-display text-base font-semibold text-ink">{member.name}</h3>
+              <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-brand">{member.role}</p>
+              <p className="mt-3 text-sm leading-[1.7] text-ink-secondary">{member.specialty}</p>
               {member.experience && (
-                <span className="mt-4 rounded-full border border-gold/30 px-3 py-1 font-mono text-[11px] font-bold text-gold">
+                <span className="mt-4 inline-flex rounded-full border border-white/8 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-ink-muted">
                   {member.experience}
                 </span>
               )}
-            </motion.article>
+            </article>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

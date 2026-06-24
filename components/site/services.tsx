@@ -1,10 +1,8 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Database, Layers, Server, Lightbulb, ArrowRight, type LucideIcon } from "lucide-react"
+import { ArrowRight, Database, Layers, Server, Lightbulb, type LucideIcon } from "lucide-react"
 import { track } from "@vercel/analytics"
-import { SectionHeader } from "./section-header"
-import { fadeUp, stagger, viewport } from "./motion"
+import Link from "next/link"
 
 type Service = {
   icon: LucideIcon
@@ -18,102 +16,99 @@ const SERVICES: Service[] = [
   {
     icon: Database,
     title: "Database Administration",
-    tag: "Oracle · SQL Server · MySQL · More",
+    tag: "Oracle · SQL Server · PostgreSQL",
     description:
-      "Expert lifecycle management across Oracle, SQL Server, IBM DB2, MySQL, PostgreSQL, and MariaDB. We handle installation, patching, performance tuning, high availability, encryption, and migration — on-prem or cloud.",
-    capabilities: ["Performance Tuning", "Data Guard / RAC", "TDE Encryption"],
+      "Monitoring, installation, patching, performance tuning, and capacity planning for enterprise databases. We establish robust backup routines and replication solutions using Oracle Data Guard and RAC.",
+    capabilities: ["Performance Tuning", "Backup & Recovery", "Security Patching"],
   },
   {
     icon: Layers,
     title: "Oracle EBS & Fusion",
-    tag: "Oracle E-Business Suite",
+    tag: "Oracle E-Business Suite Support",
     description:
-      "Full lifecycle support for Oracle E-Business Suite — from OS installation through application patching, upgrade/downgrade, user management, backup & recovery, cloning, and high availability. Cloud deployment via Oracle Fusion.",
-    capabilities: ["Upgrade & Migration", "Cloning & HA", "Oracle Fusion Cloud"],
+      "Comprehensive administration of Oracle E-Business Suite (EBS) and cloud systems. We execute technical upgrades, database patching, instances cloning, and cloud migration strategies.",
+    capabilities: ["Upgrade Operations", "Instance Cloning", "Application Tuning"],
   },
   {
     icon: Server,
-    title: "System Administration",
-    tag: "RedHat Linux · Windows Server",
+    title: "Systems Administration",
+    tag: "RHEL · Windows Server · VMware",
     description:
-      "Comprehensive administration of RedHat Linux Enterprise Edition and Microsoft Windows Server environments. Active Directory, firewall, DHCP/DNS, SAMBA, VMWare/Hyper-V/KVM virtualization, and disaster recovery.",
-    capabilities: ["Virtualization", "Active Directory", "Backup & Recovery"],
+      "Administration of operating systems, hypervisors, and directory services. We design and maintain secure RedHat Enterprise Linux (RHEL) and Windows Server infrastructure.",
+    capabilities: ["OS Hardening", "Active Directory", "Virtualization Support"],
   },
   {
     icon: Lightbulb,
-    title: "IT Consulting & Advisory",
-    tag: "Strategy · Analytics · Development",
+    title: "IT Consulting & Operations Support",
+    tag: "Technical Architecture Support",
     description:
-      "Infrastructure planning, hardware/software procurement, DataCentre/NOC setup, Data Analytics & Business Intelligence, mobile and web application development (Oracle APEX, Oracle Forms, .Net), and technical documentation.",
-    capabilities: ["Data Analytics", "Web & Mobile Dev", "Project Management"],
+      "Strategic planning and review of database infrastructure, licensing optimization, server performance reviews, and technical project governance to match systems with organizational requirements.",
+    capabilities: ["Capacity Planning", "Licensing Reviews", "System Audits"],
   },
 ]
 
 export function Services() {
   return (
-    <section id="services" className="relative bg-surface/90 py-24 lg:py-32">
+    <section id="services" className="bg-surface section-padding border-y border-line">
       <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
-        <SectionHeader
-          label="What We Do"
-          title="Four Services. Full Stack Coverage."
-          subtitle="End-to-end IT infrastructure support — from database layer to application layer to advisory."
-        />
+        {/* Header */}
+        <div className="mb-14">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-brand mb-3">Capabilities</p>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl max-w-2xl">
+            Enterprise Services
+          </h2>
+          <p className="mt-4 text-base text-ink-secondary max-w-xl leading-relaxed">
+            Technical administration and support for database systems, enterprise application layers, and server environments.
+          </p>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={stagger}
-          className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2"
-        >
+        {/* Grid */}
+        <div className="grid grid-cols-1 gap-px md:grid-cols-2 border border-line rounded-2xl overflow-hidden bg-line">
           {SERVICES.map((service) => {
             const Icon = service.icon
             return (
-              <motion.article
+              <div
                 key={service.title}
-                variants={fadeUp}
-                whileHover={{ y: -10, scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 260, damping: 24 }}
-                className="group rounded-[32px] border border-white/10 bg-surface/80 p-8 shadow-[0_30px_80px_-40px_rgba(0,240,255,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_90px_-30px_rgba(0,240,255,0.22)]"
+                className="group bg-surface p-8 md:p-10 transition-colors duration-200 hover:bg-elevated"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-gradient-to-br from-brand to-[#7c3aed]/70 text-white shadow-[0_18px_40px_-18px_rgba(0,240,255,0.45)]">
-                  <Icon className="h-7 w-7" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                  <Icon className="h-5 w-5" />
                 </div>
-                <p className="mt-5 inline-flex rounded-full bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand">
+                <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-brand">
                   {service.tag}
                 </p>
-                <h3 className="mt-4 font-display text-2xl font-semibold text-ink">{service.title}</h3>
-                <p className="mt-4 text-[15px] leading-[1.75] text-ink-secondary/90">{service.description}</p>
+                <h3 className="mt-3 font-display text-xl font-bold text-ink">{service.title}</h3>
+                <p className="mt-3 text-sm leading-[1.8] text-ink-secondary">{service.description}</p>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {service.capabilities.map((cap) => (
                     <span
                       key={cap}
-                      className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-ink-secondary"
+                      className="rounded-full border border-line px-3 py-1 text-xs text-ink-secondary"
                     >
                       {cap}
                     </span>
                   ))}
                 </div>
-                <a
-                  href="#contact"
+                <Link
+                  href="/contact"
                   onClick={() => track("cta_clicked", { placement: "services_card", cta: "learn_more", service: service.title })}
-                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-colors hover:text-brand-light"
+                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:gap-2.5 transition-all duration-200"
                 >
-                  Learn More <ArrowRight className="h-4 w-4" />
-                </a>
-              </motion.article>
+                  Contact our team <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
             )
           })}
-        </motion.div>
+        </div>
 
         <div className="mt-10 flex justify-center">
-          <a
-            href="#contact"
+          <Link
+            href="/contact"
             onClick={() => track("cta_clicked", { placement: "services_section", cta: "book_consultation" })}
-            className="inline-flex items-center justify-center rounded-full bg-brand px-8 py-3 text-sm font-semibold text-white transition-all hover:brightness-110 hover:shadow-[0_0_24px_rgba(30,155,151,0.32)]"
+            className="inline-flex items-center gap-2 border border-line px-8 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink hover:text-ink w-full sm:w-auto bg-surface"
           >
-            Book a 15-minute Consultation
-          </a>
+            Inquire About Managed Services
+          </Link>
         </div>
       </div>
     </section>

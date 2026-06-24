@@ -19,6 +19,14 @@ const buttonVariants = cva(
         ghost:
           'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
+        glass:
+          'bg-white/5 backdrop-blur-sm border border-white/10 text-ink hover:bg-white/7 rounded-2xl px-4 py-2 shadow-sm',
+        glow:
+          'relative overflow-hidden rounded-2xl px-5 py-3 bg-brand text-black shadow-[0_8px_30px_rgba(30,155,151,0.12)] transition-shadow hover:shadow-[0_12px_48px_rgba(30,155,151,0.22)] before:absolute before:inset-0 before:rounded-2xl before:opacity-0 before:transition-opacity before:duration-500 group-hover:before:opacity-60 before:bg-gradient-to-r before:from-brand/30 before:via-white/10 before:to-brand/30',
+        trace:
+          'relative overflow-hidden rounded-md px-4 py-2 bg-transparent border border-white/10 text-ink transition-colors before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:transition-transform hover:before:translate-x-0',
+        floating:
+          'rounded-full px-4 py-3 bg-brand text-black shadow-[0_10px_30px_rgba(0,0,0,0.25)] hover:translate-y-[-2px] transform transition',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',
