@@ -32,7 +32,7 @@ export function TrustSection() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-line">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-line">
               {TRUST_METRICS.map((metric, i) => {
                 const Icon = metric.icon;
                 return (

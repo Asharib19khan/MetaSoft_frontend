@@ -1,4 +1,5 @@
 import { Hero } from "@/components/site/hero"
+import { ScrollArchitect } from "@/components/site/scroll-architect"
 import { TechMarquee } from "@/components/blocks/tech-marquee"
 import { ImpactStudies } from "@/components/blocks/impact-studies"
 import { SectionTwoDemo } from "@/components/blocks/section-two"
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <main className="flex flex-col min-h-screen bg-base overflow-hidden">
       <Hero />
+      <ScrollArchitect />
       <TechMarquee />
       <ImpactStudies />
       <SectionTwoDemo />

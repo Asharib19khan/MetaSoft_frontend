@@ -13,7 +13,7 @@ export function Footer() {
             <p className="text-sm text-ink-secondary leading-[1.6] mb-8">
               MetaSoft provides elite database administration and infrastructure operations for organizations where downtime is fundamentally unacceptable.
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2 border border-line rounded-sm px-3 py-2 bg-base">
                 <ShieldCheck className="h-4 w-4 text-ink" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-ink">ISO 27001</span>
@@ -45,7 +45,7 @@ export function Footer() {
         </div>
 
         {/* Middle Section: Mega Links */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 py-16 border-b border-line">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 py-16 border-b border-line">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-ink mb-6">Capabilities</p>
             <ul className="flex flex-col gap-4 text-sm text-ink-secondary">
@@ -94,12 +94,12 @@ export function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-secondary">
-          <div className="flex items-center gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-secondary text-center md:text-left">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
             <Logo className="h-6 w-auto grayscale opacity-50" />
             <p>© {new Date().getFullYear()} MetaSoft. All rights reserved.</p>
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             <a href="#" className="hover:text-ink transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-ink transition-colors">Terms of Service</a>
             <a href="#" className="hover:text-ink transition-colors">Security</a>

@@ -25,7 +25,7 @@ export function GlobalPresence() {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-ink-secondary mb-4">
               Global Scale
             </p>
-            <h2 className="font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:text-6xl max-w-xl leading-[1.1]">
+            <h2 className="font-display text-3xl md:text-4xl lg:text-6xl font-bold tracking-tight text-ink max-w-xl leading-[1.1]">
               Engineered for the planet.
             </h2>
             <p className="mt-8 max-w-md text-lg leading-[1.8] text-ink-secondary font-sans">

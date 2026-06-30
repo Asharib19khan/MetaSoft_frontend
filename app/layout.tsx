@@ -45,8 +45,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Navbar } from "@/components/site/navbar"
 import { Footer } from "@/components/site/footer"
 import { SiteAnalyticsEvents } from "@/components/site/site-analytics-events"
-import { CustomCursor } from "@/components/site/custom-cursor"
 import { FilmGrain } from "@/components/site/film-grain"
+import { CinematicPreloader } from "@/components/site/preloader"
 
 export default function RootLayout({
   children,
@@ -62,8 +62,8 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
+          <CinematicPreloader />
           <FilmGrain />
-          <CustomCursor />
           <div className="overflow-x-hidden bg-base selection:bg-brand/20 selection:text-ink min-h-screen flex flex-col">
             <SiteAnalyticsEvents />
             <Navbar />

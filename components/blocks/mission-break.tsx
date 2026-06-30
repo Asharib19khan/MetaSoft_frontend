@@ -45,7 +45,7 @@ export function MissionBreak() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.15] tracking-tight max-w-4xl"
+          className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.15] tracking-tight max-w-4xl"
         >
           We don't just maintain systems. We engineer absolute continuity for the enterprise.
         </motion.h2>

@@ -4,6 +4,8 @@ import { ArrowRight, Monitor, Shield, Zap, ShoppingBag, Database, Activity, Tren
 import { track } from "@vercel/analytics"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import { useUiSound } from "@/hooks/use-ui-sound"
+import { WebglLiquid } from "@/components/site/webgl-liquid"
 
 const STATS = [
   { value: "20+", label: "Years Technical Experience" },
@@ -23,18 +25,20 @@ const CLIENT_LOGOS = [
 ]
 
 export function Hero() {
+  const { playTick } = useUiSound()
   return (
     <section 
       id="hero" 
-      className="relative flex w-full flex-col bg-base overflow-hidden pt-32 pb-20 min-h-[90vh] border-b border-line"
+      className="relative flex w-full flex-col bg-base overflow-hidden pt-24 md:pt-32 pb-16 md:pb-20 min-h-[90vh] border-b border-line"
     >
+      <WebglLiquid />
       <div className="mx-auto w-full max-w-7xl px-5 lg:px-8 z-10">
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           
           {/* Main Typography Column */}
           <div className="lg:col-span-7 flex flex-col items-start text-left justify-center">
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-ink leading-[1.1] tracking-tight flex flex-col pb-2">
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-ink leading-[1.1] tracking-tight flex flex-col pb-2">
               <span className="overflow-hidden block">
                 <motion.span 
                   initial={{ y: "100%" }} 
@@ -71,7 +75,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-8 max-w-xl text-lg leading-[1.8] text-ink-secondary font-sans"
+              className="mt-6 md:mt-8 max-w-xl text-base md:text-lg leading-[1.8] text-ink-secondary font-sans"
             >
               MetaSoft provides specialized database administration, systems engineering, and Oracle E-Business Suite support for organizations demanding absolute operational continuity and structural resilience.
             </motion.p>
@@ -84,6 +88,7 @@ export function Hero() {
             >
               <Link
                 href="/services"
+                onMouseEnter={playTick}
                 onClick={() => track("cta_clicked", { placement: "hero", cta: "explore_services" })}
                 className="group relative inline-flex items-center justify-center gap-3 bg-ink px-10 py-5 text-sm font-semibold tracking-widest uppercase text-base transition-all hover:bg-ink/90 overflow-hidden w-full sm:w-auto"
               >
@@ -94,6 +99,7 @@ export function Hero() {
               </Link>
               <Link
                 href="/contact"
+                onMouseEnter={playTick}
                 onClick={() => track("cta_clicked", { placement: "hero", cta: "book_consultation" })}
                 className="group relative inline-flex items-center justify-center gap-2 border border-line px-10 py-5 text-sm font-semibold tracking-widest uppercase text-ink transition-all hover:border-ink w-full sm:w-auto bg-surface overflow-hidden"
               >
@@ -107,7 +113,7 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.4 }}
-              className="mt-16 pt-8 border-t border-line flex flex-wrap gap-10 w-full"
+              className="mt-10 md:mt-16 pt-6 md:pt-8 border-t border-line flex flex-wrap gap-6 md:gap-10 w-full"
             >
               {STATS.map((stat, i) => (
                 <div key={stat.label} className="flex flex-col gap-1">
@@ -151,7 +157,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.6 }}
-        className="w-full mt-24 lg:mt-32 border-t border-line bg-surface"
+        className="w-full mt-16 md:mt-24 lg:mt-32 border-t border-line bg-surface"
       >
         <div className="mx-auto w-full max-w-7xl px-5 lg:px-8 py-6 flex flex-col lg:flex-row items-center gap-8">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-ink-secondary shrink-0">Trusted By</p>
@@ -159,12 +165,12 @@ export function Hero() {
           <div className="relative flex overflow-hidden w-full group">
             <div className="flex animate-marquee-left group-hover:[animation-play-state:paused] w-max items-center">
               {CLIENT_LOGOS.map((logo, i) => (
-                <div key={`logo-1-${i}`} className="flex items-center justify-center px-6 lg:px-10 opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                <div key={`logo-1-${i}`} className="flex items-center justify-center px-4 md:px-6 lg:px-10 opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                   {logo.node}
                 </div>
               ))}
               {CLIENT_LOGOS.map((logo, i) => (
-                <div key={`logo-2-${i}`} className="flex items-center justify-center px-6 lg:px-10 opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                <div key={`logo-2-${i}`} className="flex items-center justify-center px-4 md:px-6 lg:px-10 opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                   {logo.node}
                 </div>
               ))}

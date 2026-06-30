@@ -32,8 +32,8 @@ export function Navbar() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 z-50 flex justify-center px-6 transition-all duration-300 ${
-          scrolled ? "top-3" : "top-6"
+        className={`fixed inset-x-0 z-50 flex justify-center px-4 md:px-6 transition-all duration-300 ${
+          scrolled ? "top-2 md:top-3" : "top-4 md:top-6"
         }`}
       >
         <div
@@ -43,7 +43,7 @@ export function Navbar() {
               : "bg-base/0 border-transparent"
           }`}
         >
-          <nav className="flex h-16 items-center justify-between px-8">
+          <nav className="flex h-14 md:h-16 items-center justify-between px-4 md:px-8">
             <Link href="/" aria-label="MetaSoft home" className="z-10">
               <Logo />
             </Link>

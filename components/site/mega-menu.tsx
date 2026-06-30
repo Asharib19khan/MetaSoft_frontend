@@ -3,6 +3,8 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
 import Link from "next/link"
+import { useEffect } from "react"
+import { useUiSound } from "@/hooks/use-ui-sound"
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -13,6 +15,14 @@ const NAV_LINKS = [
 ]
 
 export function MegaMenu({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
+  const { playThud } = useUiSound()
+
+  useEffect(() => {
+    if (isOpen) {
+      playThud()
+    }
+  }, [isOpen, playThud])
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -50,7 +60,7 @@ export function MegaMenu({ isOpen, onClose }: { isOpen: boolean, onClose: () => 
                     <Link 
                       href={link.href}
                       onClick={onClose}
-                      className="text-white font-display text-5xl lg:text-7xl font-bold tracking-tight hover:text-white/60 transition-colors group flex items-center gap-4 w-fit"
+                      className="text-white font-display text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight hover:text-white/60 transition-colors group flex items-center gap-4 w-fit"
                     >
                       {link.label}
                       <span className="opacity-0 group-hover:opacity-100 transition-opacity text-2xl lg:text-4xl text-white/40">↗</span>
