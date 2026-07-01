@@ -38,7 +38,7 @@ export function Hero() {
           
           {/* Main Typography Column */}
           <div className="lg:col-span-7 flex flex-col items-start text-left justify-center">
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-ink leading-[1.1] tracking-tight flex flex-col pb-2">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-ink leading-[1.1] tracking-tight flex flex-col pb-2">
               <span className="overflow-hidden block">
                 <motion.span 
                   initial={{ y: "100%" }} 
@@ -159,7 +159,7 @@ export function Hero() {
         transition={{ duration: 1, delay: 0.6 }}
         className="w-full mt-16 md:mt-24 lg:mt-32 border-t border-line bg-surface"
       >
-        <div className="mx-auto w-full max-w-7xl px-5 lg:px-8 py-6 flex flex-col lg:flex-row items-center gap-8">
+        <div className="mx-auto w-full max-w-7xl px-5 lg:px-8 py-6 flex flex-col lg:flex-row items-center gap-4 lg:gap-8">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-ink-secondary shrink-0">Trusted By</p>
           <div className="w-px h-8 bg-line hidden lg:block" />
           <div className="relative flex overflow-hidden w-full group">
