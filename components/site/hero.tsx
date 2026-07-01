@@ -39,7 +39,7 @@ export function Hero() {
           {/* Main Typography Column */}
           <div className="lg:col-span-7 flex flex-col items-start text-left justify-center">
             <h1 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-ink leading-[1.1] tracking-tight flex flex-col pb-2">
-              <span className="overflow-hidden block">
+              <span className="overflow-hidden block pb-2 md:pb-0">
                 <motion.span 
                   initial={{ y: "100%" }} 
                   animate={{ y: 0 }} 
@@ -49,7 +49,7 @@ export function Hero() {
                   Enterprise Data
                 </motion.span>
               </span>
-              <span className="overflow-hidden block">
+              <span className="overflow-hidden block pb-2 md:pb-0">
                 <motion.span 
                   initial={{ y: "100%" }} 
                   animate={{ y: 0 }} 
@@ -59,7 +59,7 @@ export function Hero() {
                   Management &
                 </motion.span>
               </span>
-              <span className="overflow-hidden block">
+              <span className="overflow-hidden block pb-2 md:pb-0">
                 <motion.span 
                   initial={{ y: "100%" }} 
                   animate={{ y: 0 }} 
@@ -90,7 +90,7 @@ export function Hero() {
                 href="/services"
                 onMouseEnter={playTick}
                 onClick={() => track("cta_clicked", { placement: "hero", cta: "explore_services" })}
-                className="group relative inline-flex items-center justify-center gap-3 bg-ink px-10 py-5 text-sm font-semibold tracking-widest uppercase text-base transition-all hover:bg-ink/90 overflow-hidden w-full sm:w-auto"
+                className="group relative inline-flex items-center justify-center gap-3 bg-ink px-6 py-4 md:px-10 md:py-5 text-sm font-semibold tracking-widest uppercase text-base transition-all hover:bg-ink/90 overflow-hidden w-full sm:w-auto"
               >
                 <span className="relative z-10 flex items-center gap-3">
                   Our Services <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -101,7 +101,7 @@ export function Hero() {
                 href="/contact"
                 onMouseEnter={playTick}
                 onClick={() => track("cta_clicked", { placement: "hero", cta: "book_consultation" })}
-                className="group relative inline-flex items-center justify-center gap-2 border border-line px-10 py-5 text-sm font-semibold tracking-widest uppercase text-ink transition-all hover:border-ink w-full sm:w-auto bg-surface overflow-hidden"
+                className="group relative inline-flex items-center justify-center gap-2 border border-line px-6 py-4 md:px-10 md:py-5 text-sm font-semibold tracking-widest uppercase text-ink transition-all hover:border-ink w-full sm:w-auto bg-surface overflow-hidden"
               >
                 <span className="relative z-10 transition-colors duration-300 group-hover:text-base">Consultation</span>
                 <span className="absolute inset-0 bg-ink translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-y-0" />

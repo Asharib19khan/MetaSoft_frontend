@@ -49,7 +49,14 @@ export function WebglLiquid() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isInView, setIsInView] = useState(true)
 
+  const [isMobile, setIsMobile] = useState(false)
+
   useEffect(() => {
+    // Check if mobile initially and on resize
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    
     const el = containerRef.current
     if (!el) return
     
@@ -65,13 +72,14 @@ export function WebglLiquid() {
 
     observer.observe(el)
     return () => {
+      window.removeEventListener("resize", checkMobile)
       observer.unobserve(el)
     }
   }, [])
 
   return (
-    <div ref={containerRef} className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-difference">
-      {isInView && (
+    <div ref={containerRef} className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-difference hidden md:block">
+      {!isMobile && isInView && (
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
           <ambientLight intensity={0.2} />
           <directionalLight position={[10, 10, 5]} intensity={2} color="#ffffff" />
